@@ -3,7 +3,7 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCards } from "swiper/modules";
 
-export const SliderComponent = () => {
+export const CardsSlider = () => {
   return (
     <div className="h-full w-full">
       <div className="mx-auto h-[400px] w-[300px] lg:h-[50vh] lg:w-[80vw]">

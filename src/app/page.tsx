@@ -1,7 +1,7 @@
 import { getFeaturedProperties } from "@/actions";
-import { SliderComponent } from "@/components/slider";
+import { CardsSlider } from "@/components/home/cards-slider";
 
-export default async function Home() {
+const Home = async () => {
   const featuredProperties = await getFeaturedProperties();
   const fp = JSON.parse(JSON.stringify(featuredProperties));
 
@@ -16,7 +16,9 @@ export default async function Home() {
       <h4 className="w-full text-center text-xl">
         Dont waste time with meaningless content clutter, just start browsing!
       </h4>
-      <SliderComponent />
+      <CardsSlider />
     </main>
   );
-}
+};
+
+export default Home;

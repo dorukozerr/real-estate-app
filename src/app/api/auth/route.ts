@@ -3,7 +3,7 @@ import crypto from "crypto";
 
 const privateKey = process.env.PRIVATE_KEY;
 
-export async function GET(request: NextRequest) {
+export const GET = async (request: NextRequest) => {
   const { searchParams } = new URL(request.url);
   const token = searchParams.get("token") || crypto.randomUUID();
   const expire =
@@ -20,4 +20,4 @@ export async function GET(request: NextRequest) {
     expire,
     signature,
   });
-}
+};

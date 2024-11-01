@@ -1,8 +1,8 @@
 import { getProperties } from "@/actions";
 import { Property } from "@/types";
-import AdminPropertyList from "./AdminPropertyList";
+import { AdminPropertyList } from "@/components/admin/page";
 
-export default async function AdminProperties() {
+const AdminProperties = async () => {
   const properties = await getProperties();
   const p = JSON.parse(JSON.stringify(properties));
 
@@ -11,4 +11,6 @@ export default async function AdminProperties() {
       <AdminPropertyList initialProperties={p as unknown as Property[]} />
     </div>
   );
-}
+};
+
+export default AdminProperties;

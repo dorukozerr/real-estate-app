@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Property } from "@/types";
-import { createProperty, updateProperty, deleteProperty } from "@/actions";
-import { ImageKitProvider, IKUpload } from "imagekitio-next";
 import Image from "next/image";
+import { ImageKitProvider, IKUpload } from "imagekitio-next";
+import { createProperty, updateProperty, deleteProperty } from "@/actions";
+import { Property } from "@/types";
 
 const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
 const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
@@ -38,11 +38,11 @@ const initialPropertyData = {
   isForRent: false,
 };
 
-export default function AdminPropertyList({
+export const AdminPropertyList = ({
   initialProperties,
 }: {
   initialProperties: Property[];
-}) {
+}) => {
   const [isEditing, setIsEditing] = useState<string | null>(null);
   const [property, setProperty] =
     useState<Partial<Property>>(initialPropertyData);
@@ -193,4 +193,4 @@ export default function AdminPropertyList({
       </div>
     </div>
   );
-}
+};
