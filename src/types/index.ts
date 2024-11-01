@@ -8,4 +8,6 @@ export interface Property {
   isFeatured: boolean;
   isForRent: boolean;
   createdAt: Date;
+  roomCount: string;
+  tags: string[];
 }

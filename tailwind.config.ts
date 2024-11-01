@@ -49,6 +49,11 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        gradient: {
+          one: "hsl(var(--gradient-1))",
+          two: "hsl(var(--gradient-2))",
+          three: "hsl(var(--gradient-3)",
+        },
       },
       borderRadius: {
         lg: `var(--radius)`,
