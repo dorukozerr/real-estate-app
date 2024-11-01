@@ -52,9 +52,9 @@ const RootLayout = ({
               {children}
             </main>
             <div className="absolute left-0 top-0 -z-10 h-full w-full animate-[spin_8200ms_linear_infinite]">
-              <div className="absolute left-[50%] top-[70%] h-[35vw] w-[35vw] -translate-x-[50%] -translate-y-[50%] rounded-full bg-gradient-one blur-3xl"></div>
-              <div className="absolute left-[80%] top-[50%] h-[45vw] w-[45vh] -translate-x-[50%] -translate-y-[50%] rounded-full bg-gradient-two blur-3xl"></div>
-              <div className="absolute left-[20%] top-[50%] h-[60vh] w-[60vh] -translate-x-[50%] -translate-y-[50%] rounded-full bg-gradient-three blur-3xl"></div>
+              <div className="absolute left-[50%] top-[70%] h-[35vw] w-[35vw] -translate-x-[50%] -translate-y-[50%] rounded-full bg-gradient-1 blur-3xl"></div>
+              <div className="absolute left-[80%] top-[50%] h-[45vw] w-[45vh] -translate-x-[50%] -translate-y-[50%] rounded-full bg-gradient-2 blur-3xl"></div>
+              <div className="absolute left-[20%] top-[50%] h-[60vh] w-[60vh] -translate-x-[50%] -translate-y-[50%] rounded-full bg-gradient-3 blur-3xl"></div>
             </div>
           </div>
         </ThemeProvider>

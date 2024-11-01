@@ -50,9 +50,9 @@ const config: Config = {
           foreground: "hsl(var(--card-foreground))",
         },
         gradient: {
-          one: "hsl(var(--gradient-1))",
-          two: "hsl(var(--gradient-2))",
-          three: "hsl(var(--gradient-3)",
+          1: "hsl(var(--gradient-1))",
+          2: "hsl(var(--gradient-2))",
+          3: "hsl(var(--gradient-3))",
         },
       },
       borderRadius: {
