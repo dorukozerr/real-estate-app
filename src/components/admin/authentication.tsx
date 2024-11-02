@@ -64,7 +64,7 @@ export const Authentication = ({ properties }: { properties: Property[] }) => {
   return (
     <div className="flex h-full w-full items-center justify-center">
       {isAuthenticated ? (
-        <AdminPage properties={properties as unknown as Property[]} />
+        <AdminPage properties={properties} />
       ) : (
         <Form {...form}>
           <form

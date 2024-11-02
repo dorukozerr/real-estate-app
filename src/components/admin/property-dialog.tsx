@@ -145,7 +145,7 @@ export const PropertyDialog = ({
 
   return (
     <Dialog onOpenChange={onOpenChange} open={open}>
-      <DialogContent className="flex max-h-[min(800px,80vh)] min-h-[min(800px,80vh)] min-w-[min(850px,80vw)] max-w-[min(850px,80vw)] flex-col">
+      <DialogContent className="flex max-h-[min(800px,80vh)] min-h-[min(800px,80vh)] min-w-[min(850px,80vw)] max-w-[min(850px,80vw)] flex-col rounded-md">
         <DialogHeader className="h-full w-full">
           <DialogTitle>
             {mode === "create"
@@ -163,7 +163,7 @@ export const PropertyDialog = ({
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="grid h-full w-full flex-1 auto-rows-min grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3"
+              className="grid h-full w-full flex-1 auto-rows-min grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-8 md:grid-cols-3"
             >
               <div className="h-max">
                 <FormField
@@ -228,7 +228,7 @@ export const PropertyDialog = ({
                   )}
                 />
               </div>
-              <div className="row-span-2">
+              <div className="row-span-3 sm:row-span-1">
                 <FormField
                   control={form.control}
                   name="description"
@@ -312,7 +312,9 @@ export const PropertyDialog = ({
                         95m2.
                       </FormDescription>
                       <FormMessage />
-                      <div className="flex h-max w-full gap-2 overflow-x-auto">
+                      <div
+                        className={`flex h-max w-full gap-2 overflow-x-auto ${field.value.length > 0 ? "border border-border p-2" : ""}`}
+                      >
                         {field.value.map((tag, index) => (
                           <Badge
                             className="relative min-w-max py-2"
@@ -385,7 +387,7 @@ export const PropertyDialog = ({
                   )}
                 />
               </div>
-              <div className="col-span-3 h-full">
+              <div className="col-span-1 h-full sm:col-span-2 md:col-span-3">
                 <FormField
                   control={form.control}
                   name="imageUrls"
@@ -398,7 +400,7 @@ export const PropertyDialog = ({
                           publicKey={publicKey}
                           authenticator={imagekitioAuthenticator}
                         >
-                          <div className="flex items-center justify-start gap-4">
+                          <div className="flex flex-col items-start justify-start gap-4 sm:flex-row">
                             <IKUpload
                               ref={imgKitBtnRef}
                               validateFile={(file) => file.size < 2000000}
@@ -416,7 +418,6 @@ export const PropertyDialog = ({
                               }}
                               onSuccess={(res) => {
                                 setIsPending(false);
-                                console.log("Image Upload Success =>", res);
                                 field.onChange([...field.value, res.url]);
                                 toast("Success!", {
                                   description: "Image uploaded succesfully.",

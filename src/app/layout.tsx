@@ -5,9 +5,12 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ThemeToggler } from "@/components/theme/theme-toggler";
 import { BackgroundGradient } from "@/components/layout/background-gradient";
 import { Toaster } from "@/components/ui/sonner";
-import "./globals.css";
+
 import "swiper/css";
 import "swiper/css/effect-cards";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "./globals.css";
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",

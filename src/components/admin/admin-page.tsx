@@ -89,7 +89,7 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
     </DropdownMenu>
   );
   const renderStr = (str: string) => str;
-  const renderNumber = (num: number) => `₺${num?.toLocaleString()}`;
+  const renderPrice = (num: number) => `${num?.toLocaleString()} ₺`;
   const renderImageUrls = (arr: string[]) => arr.length;
   const renderBoolean = (flag: boolean) =>
     flag ? (
@@ -112,14 +112,14 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
   const fields = [
     { field: "", render: renderActions },
     { field: "title", render: renderStr },
-    { field: "price", render: renderNumber },
+    { field: "price", render: renderPrice },
     { field: "location", render: renderStr },
     { field: "imageUrls", render: renderImageUrls },
     { field: "description", render: renderStr },
     { field: "isFeatured", render: renderBoolean },
     { field: "isForRent", render: renderBoolean },
     { field: "createdAt", render: renderDate },
-    { field: "roomCount", render: renderNumber },
+    { field: "roomCount", render: renderStr },
     { field: "tags", render: renderTags },
   ] as const;
 
@@ -136,36 +136,38 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
           </Button>
         </div>
         {properties.length ? (
-          <Table className="relative flex-1 overflow-auto">
-            <TableHeader className="sticky top-[-1px] overflow-hidden rounded-md border-border bg-background after:absolute after:bottom-0 after:h-[1px] after:w-full after:bg-border after:content-['']">
-              <TableRow>
-                {fields.map(({ field }, index) => (
-                  <TableHead
-                    key={`tableHeaderCell-${index}`}
-                    className="text-nowrap capitalize"
-                  >
-                    {field.replace(/([A-Z])/g, " $1").trim()}
-                  </TableHead>
-                ))}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {properties.map((property, index) => (
-                <TableRow key={`tableRow-${index}`}>
-                  {fields.map(({ field, render }, index) => (
-                    <TableCell
-                      className="whitespace-pre-line text-nowrap"
-                      key={`tableCell-${index}`}
+          <div className="flex w-full flex-1 flex-col overflow-auto rounded-md border border-border">
+            <Table className="relative flex-1 overflow-auto">
+              <TableHeader className="sticky top-[-1px] overflow-hidden rounded-md border-border bg-background after:absolute after:bottom-0 after:h-[1px] after:w-full after:bg-border after:content-['']">
+                <TableRow>
+                  {fields.map(({ field }, index) => (
+                    <TableHead
+                      key={`tableHeaderCell-${index}`}
+                      className="text-nowrap capitalize"
                     >
-                      {field !== ""
-                        ? render(property[field as never])
-                        : render(property)}
-                    </TableCell>
+                      {field.replace(/([A-Z])/g, " $1").trim()}
+                    </TableHead>
                   ))}
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {properties.map((property, index) => (
+                  <TableRow key={`tableRow-${index}`}>
+                    {fields.map(({ field, render }, index) => (
+                      <TableCell
+                        className="whitespace-pre-line text-nowrap"
+                        key={`tableCell-${index}`}
+                      >
+                        {field !== ""
+                          ? render(property[field as never])
+                          : render(property)}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         ) : (
           <div className="flex h-full w-full flex-col items-center justify-center gap-4">
             <span className="text-2xl font-bold">
@@ -185,12 +187,7 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
           </div>
         )}
         <div className="flex w-full items-center justify-end">
-          <Button
-            onClick={async () => {
-              const res = await populateProperties();
-              console.log("populate events res =>", res);
-            }}
-          >
+          <Button onClick={async () => await populateProperties()}>
             <Plus className="h-[1.2rem] w-[1.2rem]" />
             <span>Populate</span>
           </Button>
