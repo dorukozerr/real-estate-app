@@ -13,6 +13,7 @@ import { createProperty, updateProperty, deleteProperty } from "@/actions";
 import { Property } from "@/types";
 import { imagekitioAuthenticator } from "@/lib/imagekitio-authenticator";
 import { PropertyDialog } from "@/components/admin/property-dialog";
+import { DeleteDialog } from "@/components/admin/delete-dialog";
 import {
   Table,
   TableBody,
@@ -30,14 +31,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-// TODO - render(property[field as never])
-// render get arg: never automatically only as never disables error but its not
-// good practice i suppose somehow understand what is going on here and solve it
-// on the fields.map line inspecting render function shows correct argument and return
-// types but on the rendering line argument is setted to never??
-
 export const AdminPage = ({ properties }: { properties: Property[] }) => {
-  const [dialogState, setDialogState] = useState<{
+  const [propertyDialogState, setPropertyDialogState] = useState<{
     mode: "create" | "edit" | "";
     open: boolean;
     property: Property | null;
@@ -45,6 +40,13 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
     mode: "",
     open: false,
     property: null,
+  });
+  const [deleteDialogState, setDeleteDialogState] = useState<{
+    open: boolean;
+    id: string;
+  }>({
+    open: false,
+    id: "",
   });
 
   const renderActions = (property: Property) => (
@@ -54,12 +56,21 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
           <DotsHorizontalIcon className="h-[1.2rem] w-[1.2rem]" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent
-        onClick={() => console.log("edit clicked property =>", property)}
-      >
-        <DropdownMenuItem>Edit</DropdownMenuItem>
+      <DropdownMenuContent>
         <DropdownMenuItem
-          onClick={() => console.log("Delete clicked property =>", property)}
+          onClick={() =>
+            setPropertyDialogState({ mode: "edit", open: true, property })
+          }
+        >
+          Edit
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() =>
+            setDeleteDialogState({
+              open: true,
+              id: property._id ? property._id : "",
+            })
+          }
         >
           Delete
         </DropdownMenuItem>
@@ -109,63 +120,88 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
             variant="outline"
             size="icon"
             onClick={() =>
-              setDialogState({ mode: "create", open: true, property: null })
+              setPropertyDialogState({
+                mode: "create",
+                open: true,
+                property: null,
+              })
             }
           >
             <Plus className="h-[1.2rem] w-[1.2rem]" />
           </Button>
         </div>
         <div className="w-full flex-1">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                {fields.map(({ field }, index) => (
-                  <TableHead
-                    key={`tableHeaderCell-${index}`}
-                    className="capitalize"
-                  >
-                    {field.replace(/([A-Z])/g, " $1").trim()}
-                  </TableHead>
-                ))}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {properties.map((property, index) => (
-                <TableRow key={`tableRow-${index}`}>
-                  {fields.map(({ field, render }, index) => (
-                    <TableCell
-                      className="whitespace-pre-line"
-                      key={`tableCell-${index}`}
+          {properties.length ? (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  {fields.map(({ field }, index) => (
+                    <TableHead
+                      key={`tableHeaderCell-${index}`}
+                      className="capitalize"
                     >
-                      {field !== ""
-                        ? render(property[field as never])
-                        : render(property)}
-                    </TableCell>
+                      {field.replace(/([A-Z])/g, " $1").trim()}
+                    </TableHead>
                   ))}
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {properties.map((property, index) => (
+                  <TableRow key={`tableRow-${index}`}>
+                    {fields.map(({ field, render }, index) => (
+                      <TableCell
+                        className="whitespace-pre-line"
+                        key={`tableCell-${index}`}
+                      >
+                        {field !== ""
+                          ? render(property[field as never])
+                          : render(property)}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          ) : (
+            <div className="flex h-full w-full items-center justify-center text-xl">
+              There is no property, please create one.
+            </div>
+          )}
         </div>
+        {/*
         <div className="flex w-full items-center justify-end">
           <Button
             variant="outline"
             size="icon"
             onClick={() =>
-              setDialogState({ mode: "create", open: true, property: null })
+              setPropertyDialogState({
+                mode: "create",
+                open: true,
+                property: null,
+              })
             }
           >
             <Plus className="h-[1.2rem] w-[1.2rem]" />
           </Button>
         </div>
+        */}
       </div>
       <PropertyDialog
-        open={dialogState.open}
+        open={propertyDialogState.open}
         onOpenChange={(flag) =>
-          setDialogState((prevState) => ({ ...prevState, open: flag }))
+          setPropertyDialogState({
+            open: flag,
+            property: null,
+            mode: "",
+          })
         }
-        mode={dialogState.mode}
-        property={dialogState.property}
+        mode={propertyDialogState.mode}
+        property={propertyDialogState.property}
+      />
+      <DeleteDialog
+        open={deleteDialogState.open}
+        onOpenChange={(flag) => setDeleteDialogState({ open: flag, id: "" })}
+        id={deleteDialogState.id}
       />
     </>
   );
