@@ -31,7 +31,7 @@ const RootLayout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" suppressHydrationWarning={true} className="h-full">
       <body
         className={`${geistSans.variable} ${geistMono.variable} h-full w-full antialiased`}
       >
@@ -41,7 +41,7 @@ const RootLayout = ({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="relative flex h-full w-full flex-col overflow-hidden border-4 border-blue-500">
+          <div className="relative flex h-full w-full flex-col overflow-hidden">
             <header className="relative z-10 mx-auto flex h-[70px] min-h-[70px] w-screen max-w-[1440px] items-center justify-between border-b border-border px-4">
               <Link href="/">
                 <h2 className="text-base font-bold sm:text-2xl">Real Estate</h2>

@@ -43,13 +43,15 @@ const initialPropertyData = {
 export const PropertyDialog = ({
   open,
   onOpenChange,
+  mode,
   property,
 }: {
   open: boolean;
   onOpenChange: (flag: boolean) => void;
+  mode: "create" | "edit" | "";
   property: Property | null;
 }) => {
-  console.log("property =>", property);
+  console.log("property =>", property, mode);
 
   return (
     <Dialog onOpenChange={onOpenChange} open={open}>
