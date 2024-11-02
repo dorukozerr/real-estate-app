@@ -4,7 +4,6 @@ import localFont from "next/font/local";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ThemeToggler } from "@/components/theme/theme-toggler";
 import { BackgroundGradient } from "@/components/layout/background-gradient";
-import { BackgroundGrid } from "@/components/layout/background-grid";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 import "swiper/css";
@@ -48,7 +47,9 @@ const RootLayout = ({
           <div className="relative flex h-full w-full flex-col overflow-hidden">
             <header className="relative z-10 mx-auto flex h-[70px] min-h-[70px] w-screen max-w-[1440px] items-center justify-between border-b border-border px-4">
               <Link href="/">
-                <h2 className="text-base font-bold sm:text-2xl">Real Estate</h2>
+                <h2 className="text-base font-bold sm:text-2xl">
+                  Real Estate Browsing Made Eazzzy
+                </h2>
               </Link>
               <ThemeToggler />
             </header>
@@ -56,7 +57,6 @@ const RootLayout = ({
               {children}
             </main>
             <div className="absolute left-0 top-0 -z-10 h-full w-full animate-[spin_50000ms_linear_infinite]">
-              <BackgroundGrid />
               <BackgroundGradient />
             </div>
           </div>
