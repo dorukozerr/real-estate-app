@@ -20,6 +20,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
 const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
@@ -110,7 +111,7 @@ export const PropertyDialog = ({
   return (
     <Dialog onOpenChange={onOpenChange} open={open}>
       <DialogContent className="flex max-h-[min(800px,80vh)] min-h-[min(800px,80vh)] min-w-[min(850px,80vw)] max-w-[min(850px,80vw)] flex-col">
-        <DialogHeader className="h-max w-full">
+        <DialogHeader className="h-full w-full">
           <DialogTitle>
             {mode === "create"
               ? "Create Property"
@@ -120,7 +121,7 @@ export const PropertyDialog = ({
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="grid h-full w-full flex-1 grid-cols-1 items-start justify-start gap-4 sm:grid-cols-2 md:grid-cols-3"
+            className="grid h-full w-full flex-1 grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3"
           >
             <div className="h-max">
               <FormField
@@ -130,7 +131,7 @@ export const PropertyDialog = ({
                   <FormItem>
                     <FormLabel>Title</FormLabel>
                     <FormControl>
-                      <Input placeholder="Title..." {...field} />
+                      <Input placeholder="Osmanbey Kelepir Daire" {...field} />
                     </FormControl>
                     <FormDescription>Title of the property</FormDescription>
                     <FormMessage />
@@ -146,7 +147,12 @@ export const PropertyDialog = ({
                   <FormItem>
                     <FormLabel>Price</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="Price..." {...field} />
+                      <Input
+                        min={0}
+                        type="number"
+                        placeholder="Price..."
+                        {...field}
+                      />
                     </FormControl>
                     <FormDescription>
                       Price of the property as ₺.
@@ -164,9 +170,47 @@ export const PropertyDialog = ({
                   <FormItem>
                     <FormLabel>Location</FormLabel>
                     <FormControl>
-                      <Input placeholder="Location..." {...field} />
+                      <Input placeholder="Şişli" {...field} />
                     </FormControl>
                     <FormDescription>Location of the property.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="row-span-2 h-max">
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem className="flex h-full flex-col">
+                    <FormLabel>Description</FormLabel>
+                    <FormControl className="flex-1">
+                      <Textarea
+                        className="resize-none"
+                        placeholder="Eski bina ama konumu iyi."
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Description of the property.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="h-max">
+              <FormField
+                control={form.control}
+                name="roomCount"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Room Count</FormLabel>
+                    <FormControl>
+                      <Input placeholder="1+1" {...field} />
+                    </FormControl>
+                    <FormDescription>Room count of property.</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -176,7 +220,7 @@ export const PropertyDialog = ({
           </form>
         </Form>
         <div className=""></div>
-        <DialogFooter className="h-max w-full">
+        <DialogFooter className="h-full w-full">
           <Button onClick={() => form.handleSubmit(onSubmit)()}>
             {mode === "create" ? "Submit" : mode === "edit" && "Update"}
           </Button>

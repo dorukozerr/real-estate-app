@@ -34,10 +34,6 @@
     --ring: 215 20.2% 65.1%;
 
     --radius: 0.5rem;
-
-    --gradient-1: 140 35% 85%;
-    --gradient-2: 0 100% 95%;
-    --gradient-3: 270 35% 82%;
   }
 
   .dark {
@@ -71,10 +67,6 @@
     --ring: 216 34% 17%;
 
     --radius: 0.5rem;
-
-    --gradient-1: 160 30% 15%;
-    --gradient-2: 0 25% 18%;
-    --gradient-3: 255 20% 20%;
   }
 }
 
