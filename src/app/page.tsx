@@ -8,14 +8,12 @@ const Home = async () => {
   const fp = JSON.parse(JSON.stringify(featuredProperties)) as Property[];
 
   return (
-    <main className="flex min-h-full w-full grow flex-col items-center gap-4 overflow-auto overflow-x-hidden p-4 py-4 sm:gap-16 sm:py-16">
-      <h1 className="mx-auto w-[300px] text-center text-2xl font-bold sm:w-[550px] sm:text-4xl">
-        Emluck&apos;a hoşgeldiniz,{" "}
-        <span className="font-bold italic underline">özel ilanlarımıza</span>{" "}
-        bir göz atın
+    <main className="flex min-h-full w-full grow flex-col items-center gap-8 overflow-auto overflow-x-hidden px-4 py-8 sm:gap-16 sm:py-16">
+      <h1 className="mx-auto w-[min(500px,90vw)] text-center text-3xl font-semibold sm:w-[min(900px,90vw)] sm:text-5xl md:text-7xl">
+        Emluck&apos;a hoşgeldiniz, özel ilanlarımıza bir göz atın
       </h1>
       <CardsSlider properties={fp} />
-      <div className="flex h-max w-full items-center justify-center gap-16">
+      <div className="flex h-max w-max items-center justify-center gap-16 rounded-md p-4 shadow-2xl dark:shadow-pink-100">
         <div className="flex flex-col items-start justify-start">
           <span className="text-xl font-thin text-muted-foreground">
             Satılık İlanlar
