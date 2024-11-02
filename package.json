@@ -1,5 +1,6 @@
 {
   "name": "real-estate-app",
+  "author": "Doruk Özer <dorukozer@protonmail.com>",
   "version": "0.1.0",
   "private": true,
   "type": "module",
