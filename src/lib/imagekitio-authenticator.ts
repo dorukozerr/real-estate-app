@@ -14,6 +14,7 @@ export const imagekitioAuthenticator = async () => {
 
     return { signature, expire, token };
   } catch (error) {
-    throw new Error(`Authentication request failed`);
+    console.error("Authentication request failed =>", error);
+    throw new Error("Authentication request failed");
   }
 };

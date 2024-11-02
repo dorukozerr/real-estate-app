@@ -1,17 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
-import { ImageKitProvider, IKUpload } from "imagekitio-next";
 import { Plus } from "lucide-react";
 import {
   CheckIcon,
   Cross2Icon,
   DotsHorizontalIcon,
 } from "@radix-ui/react-icons";
-import { createProperty, updateProperty, deleteProperty } from "@/actions";
-import { Property } from "@/types";
-import { imagekitioAuthenticator } from "@/lib/imagekitio-authenticator";
+import { Property, PropertyDialogState } from "@/types";
 import { PropertyDialog } from "@/components/admin/property-dialog";
 import { DeleteDialog } from "@/components/admin/delete-dialog";
 import {
@@ -32,15 +28,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export const AdminPage = ({ properties }: { properties: Property[] }) => {
-  const [propertyDialogState, setPropertyDialogState] = useState<{
-    mode: "create" | "edit" | "";
-    open: boolean;
-    property: Property | null;
-  }>({
-    mode: "",
-    open: false,
-    property: null,
-  });
+  const [propertyDialogState, setPropertyDialogState] =
+    useState<PropertyDialogState>({
+      mode: "",
+      open: false,
+      property: null,
+    });
   const [deleteDialogState, setDeleteDialogState] = useState<{
     open: boolean;
     id: string;
@@ -48,6 +41,27 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
     open: false,
     id: "",
   });
+
+  const openCreateDialog = () =>
+    setPropertyDialogState({
+      mode: "create",
+      open: true,
+      property: null,
+    });
+
+  const openEditDialog = (property: Property) =>
+    setPropertyDialogState({
+      mode: "edit",
+      open: true,
+      property,
+    });
+
+  const closePropertyDialog = () =>
+    setPropertyDialogState({
+      mode: "",
+      open: false,
+      property: null,
+    });
 
   const renderActions = (property: Property) => (
     <DropdownMenu>
@@ -57,11 +71,7 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem
-          onClick={() =>
-            setPropertyDialogState({ mode: "edit", open: true, property })
-          }
-        >
+        <DropdownMenuItem onClick={() => openEditDialog(property)}>
           Edit
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -119,13 +129,7 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
           <Button
             variant="outline"
             size="icon"
-            onClick={() =>
-              setPropertyDialogState({
-                mode: "create",
-                open: true,
-                property: null,
-              })
-            }
+            onClick={() => openCreateDialog()}
           >
             <Plus className="h-[1.2rem] w-[1.2rem]" />
           </Button>
@@ -138,7 +142,7 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
                   {fields.map(({ field }, index) => (
                     <TableHead
                       key={`tableHeaderCell-${index}`}
-                      className="capitalize"
+                      className="text-nowrap capitalize"
                     >
                       {field.replace(/([A-Z])/g, " $1").trim()}
                     </TableHead>
@@ -150,7 +154,7 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
                   <TableRow key={`tableRow-${index}`}>
                     {fields.map(({ field, render }, index) => (
                       <TableCell
-                        className="whitespace-pre-line"
+                        className="whitespace-pre-line text-nowrap"
                         key={`tableCell-${index}`}
                       >
                         {field !== ""
@@ -163,8 +167,21 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
               </TableBody>
             </Table>
           ) : (
-            <div className="flex h-full w-full items-center justify-center text-xl">
-              There is no property, please create one.
+            <div className="flex h-full w-full flex-col items-center justify-center gap-4">
+              <span className="text-2xl font-bold">
+                Currently there is no property.
+              </span>
+              <Button
+                onClick={() =>
+                  setPropertyDialogState({
+                    mode: "create",
+                    open: true,
+                    property: null,
+                  })
+                }
+              >
+                Create
+              </Button>
             </div>
           )}
         </div>
@@ -188,13 +205,7 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
       </div>
       <PropertyDialog
         open={propertyDialogState.open}
-        onOpenChange={(flag) =>
-          setPropertyDialogState({
-            open: flag,
-            property: null,
-            mode: "",
-          })
-        }
+        onOpenChange={() => closePropertyDialog()}
         mode={propertyDialogState.mode}
         property={propertyDialogState.property}
       />

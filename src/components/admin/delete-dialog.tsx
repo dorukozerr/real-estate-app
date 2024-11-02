@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 import { deleteProperty } from "@/actions";
 import {
   AlertDialog,
@@ -9,7 +10,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { toast } from "sonner";
 
 export const DeleteDialog = ({
   open,
