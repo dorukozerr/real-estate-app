@@ -7,6 +7,7 @@ import {
   Cross2Icon,
   DotsHorizontalIcon,
 } from "@radix-ui/react-icons";
+import { populateProperties } from "@/actions";
 import { Property, PropertyDialogState } from "@/types";
 import { PropertyDialog } from "@/components/admin/property-dialog";
 import { DeleteDialog } from "@/components/admin/delete-dialog";
@@ -103,7 +104,7 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
   const renderDate = (timestamp: string) =>
     new Date(timestamp).toLocaleDateString("tr-TR");
   const renderTags = (tags: string[]) => (
-    <div className="flex items-center justify-center gap-2">
+    <div className="flex items-center justify-start gap-2">
       {tags?.map((tag, index) => <Badge key={`badge-${index}`}>{tag}</Badge>)}
     </div>
   );
@@ -134,74 +135,66 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
             <Plus className="h-[1.2rem] w-[1.2rem]" />
           </Button>
         </div>
-        <div className="w-full flex-1">
-          {properties.length ? (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  {fields.map(({ field }, index) => (
-                    <TableHead
-                      key={`tableHeaderCell-${index}`}
-                      className="text-nowrap capitalize"
+        {properties.length ? (
+          <Table className="relative flex-1 overflow-auto">
+            <TableHeader className="sticky top-[-1px] overflow-hidden rounded-md border-border bg-background after:absolute after:bottom-0 after:h-[1px] after:w-full after:bg-border after:content-['']">
+              <TableRow>
+                {fields.map(({ field }, index) => (
+                  <TableHead
+                    key={`tableHeaderCell-${index}`}
+                    className="text-nowrap capitalize"
+                  >
+                    {field.replace(/([A-Z])/g, " $1").trim()}
+                  </TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {properties.map((property, index) => (
+                <TableRow key={`tableRow-${index}`}>
+                  {fields.map(({ field, render }, index) => (
+                    <TableCell
+                      className="whitespace-pre-line text-nowrap"
+                      key={`tableCell-${index}`}
                     >
-                      {field.replace(/([A-Z])/g, " $1").trim()}
-                    </TableHead>
+                      {field !== ""
+                        ? render(property[field as never])
+                        : render(property)}
+                    </TableCell>
                   ))}
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {properties.map((property, index) => (
-                  <TableRow key={`tableRow-${index}`}>
-                    {fields.map(({ field, render }, index) => (
-                      <TableCell
-                        className="whitespace-pre-line text-nowrap"
-                        key={`tableCell-${index}`}
-                      >
-                        {field !== ""
-                          ? render(property[field as never])
-                          : render(property)}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          ) : (
-            <div className="flex h-full w-full flex-col items-center justify-center gap-4">
-              <span className="text-2xl font-bold">
-                Currently there is no property.
-              </span>
-              <Button
-                onClick={() =>
-                  setPropertyDialogState({
-                    mode: "create",
-                    open: true,
-                    property: null,
-                  })
-                }
-              >
-                Create
-              </Button>
-            </div>
-          )}
-        </div>
-        {/*
+              ))}
+            </TableBody>
+          </Table>
+        ) : (
+          <div className="flex h-full w-full flex-col items-center justify-center gap-4">
+            <span className="text-2xl font-bold">
+              Currently there is no property.
+            </span>
+            <Button
+              onClick={() =>
+                setPropertyDialogState({
+                  mode: "create",
+                  open: true,
+                  property: null,
+                })
+              }
+            >
+              Create
+            </Button>
+          </div>
+        )}
         <div className="flex w-full items-center justify-end">
           <Button
-            variant="outline"
-            size="icon"
-            onClick={() =>
-              setPropertyDialogState({
-                mode: "create",
-                open: true,
-                property: null,
-              })
-            }
+            onClick={async () => {
+              const res = await populateProperties();
+              console.log("populate events res =>", res);
+            }}
           >
             <Plus className="h-[1.2rem] w-[1.2rem]" />
+            <span>Populate</span>
           </Button>
         </div>
-        */}
       </div>
       <PropertyDialog
         open={propertyDialogState.open}

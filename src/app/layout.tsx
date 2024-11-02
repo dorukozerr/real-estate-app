@@ -23,8 +23,8 @@ const geistMono = localFont({
 
 // TODO - Update metadata
 export const metadata: Metadata = {
-  title: "Real Estate App",
-  description: "Basic real estate app made with love and nextjs",
+  title: "Emluck",
+  description: "Basit bir emlakçı sitesi",
 };
 
 const RootLayout = ({
@@ -47,9 +47,7 @@ const RootLayout = ({
           <div className="relative flex h-full w-full flex-col overflow-hidden">
             <header className="relative z-10 mx-auto flex h-[70px] min-h-[70px] w-screen max-w-[1440px] items-center justify-between border-b border-border px-4">
               <Link href="/">
-                <h2 className="text-base font-bold sm:text-2xl">
-                  Real Estate Browsing Made Eazzzy
-                </h2>
+                <h2 className="text-base font-bold sm:text-2xl">Emluck</h2>
               </Link>
               <ThemeToggler />
             </header>

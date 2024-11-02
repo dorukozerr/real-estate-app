@@ -1,6 +1,6 @@
 import { getProperties } from "@/actions";
 import { Property } from "@/types";
-import { AdminPage } from "@/components/admin/admin-page";
+import { Authentication } from "@/components/admin/authentication";
 
 const Page = async () => {
   const properties = await getProperties();
@@ -8,7 +8,7 @@ const Page = async () => {
 
   return (
     <div className="mx-auto h-full w-full max-w-[1440px] overflow-auto p-4">
-      <AdminPage properties={p as unknown as Property[]} />
+      <Authentication properties={p as unknown as Property[]} />
     </div>
   );
 };

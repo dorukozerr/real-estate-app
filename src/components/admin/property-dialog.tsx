@@ -460,6 +460,7 @@ export const PropertyDialog = ({
                                   src={img}
                                   height={75}
                                   width={75}
+                                  loading="lazy"
                                 />
                                 <div
                                   onClick={() => {
