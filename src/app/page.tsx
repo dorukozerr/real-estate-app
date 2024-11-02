@@ -13,7 +13,7 @@ const Home = async () => {
         Emluck&apos;a hoşgeldiniz, özel ilanlarımıza bir göz atın
       </h1>
       <CardsSlider properties={fp} />
-      <div className="flex h-max w-max items-center justify-center gap-16 rounded-md p-4 shadow-2xl dark:shadow-pink-100">
+      <div className="flex h-max w-max items-center justify-center gap-16 rounded-md border border-border p-4">
         <div className="flex flex-col items-start justify-start">
           <span className="text-xl font-thin text-muted-foreground">
             Satılık İlanlar

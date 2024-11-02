@@ -23,7 +23,7 @@ export const CardsSlider = ({ properties }: { properties: Property[] }) => {
           {properties?.map((property) => (
             <SwiperSlide
               key={`slide-${property._id}`}
-              className="h-full w-full rounded-2xl border-4 border-border bg-background"
+              className="h-full w-full rounded-2xl border border-border bg-background"
             >
               <div className="flex h-full w-full flex-col items-center justify-center lg:flex-row">
                 <div className="relative h-full max-w-[100%] flex-[1.5] lg:max-w-[60%]">
@@ -38,7 +38,7 @@ export const CardsSlider = ({ properties }: { properties: Property[] }) => {
                       {property.imageUrls.map((img, imgIndex) => (
                         <SwiperSlide
                           key={`img-${property._id}-${imgIndex}`}
-                          className="relative border-r-4 border-border"
+                          className="relative border-r border-border"
                           onMouseEnter={(e) => e.stopPropagation()}
                         >
                           <Image
