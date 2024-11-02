@@ -7,6 +7,7 @@ export const BackgroundGradient = () => {
       viewBox="0 0 2162 1912"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className="absolute"
     >
       <g opacity="0.4" fill="none">
         <g filter="url(#filter0_f_117_3888)" fill="none">

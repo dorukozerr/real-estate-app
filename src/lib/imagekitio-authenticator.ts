@@ -1,6 +1,8 @@
+const SERVER_URL = process.env.SERVER_URL;
+
 export const imagekitioAuthenticator = async () => {
   try {
-    const response = await fetch("http://localhost:3000/api/auth");
+    const response = await fetch(`${SERVER_URL}/api/auth`);
 
     if (!response.ok) {
       const errorText = await response.text();

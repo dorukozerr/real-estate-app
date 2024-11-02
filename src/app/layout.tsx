@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ThemeToggler } from "@/components/theme/theme-toggler";
 import { BackgroundGradient } from "@/components/layout/background-gradient";
+import { BackgroundGrid } from "@/components/layout/background-grid";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 import "swiper/css";
@@ -54,7 +55,8 @@ const RootLayout = ({
             <main className="relative z-10 flex w-full flex-1 flex-col overflow-hidden">
               {children}
             </main>
-            <div className="absolute left-0 top-0 -z-10 h-full w-full animate-[spin_8200ms_linear_infinite]">
+            <div className="absolute left-0 top-0 -z-10 h-full w-full animate-[spin_50000ms_linear_infinite]">
+              <BackgroundGrid />
               <BackgroundGradient />
             </div>
           </div>
