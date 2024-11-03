@@ -1,6 +1,14 @@
 # Real Estate App
 
-to be updated...
+## Stack
+
+-   nextjs
+-   typescript
+-   tailwindcss
+-   shadcn (actually radix?)
+-   zod
+-   mongodb
+-   swiperjs
 
 AI can generate this app but I'm trying to build it without AI. I feel little bit depressed :(((
 
@@ -8,8 +16,8 @@ example `.env`
 
 ```
 MONGODB_URI=""
-NEXT_PUBLIC_PUBLIC_KEY=""
-NEXT_PUBLIC_URL_ENDPOINT=""
-PRIVATE_KEY=""
-NEXT_PUBLIC_SERVER_URL=""
+IMAGEKITIO_PRIVATE_KEY=""
+NEXT_PUBLIC_IMAGEKITIO_PUBLIC_KEY=""
+NEXT_PUBLIC_IMAGEKITIO_URL_ENDPOINT=""
+NEXT_PUBLIC_APP_URL=""
 ```

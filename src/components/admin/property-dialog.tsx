@@ -32,8 +32,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 
-const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
-const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
+const imagekitioUrlEndpoint = process.env.NEXT_PUBLIC_IMAGEKITIO_URL_ENDPOINT;
+const imagekitioPublicKey = process.env.NEXT_PUBLIC_IMAGEKITIO_PUBLIC_KEY;
 
 const formSchema = z.object({
   title: z
@@ -396,8 +396,8 @@ export const PropertyDialog = ({
                       <FormLabel>Image URL&apos;s</FormLabel>
                       <FormControl>
                         <ImageKitProvider
-                          urlEndpoint={urlEndpoint}
-                          publicKey={publicKey}
+                          urlEndpoint={imagekitioUrlEndpoint}
+                          publicKey={imagekitioPublicKey}
                           authenticator={imagekitioAuthenticator}
                         >
                           <div className="flex flex-col items-start justify-start gap-4 sm:flex-row">
