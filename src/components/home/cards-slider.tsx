@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -13,6 +13,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export const CardsSlider = ({ properties }: { properties: Property[] }) => {
   const [loadedImages, setLoadedImages] = useState<string[]>([]);
+  const [width, setWidth] = useState(1920);
+
+  useEffect(() => {
+    setWidth(window.innerWidth);
+  }, []);
 
   return (
     <div className="h-max w-full">
@@ -42,7 +47,7 @@ export const CardsSlider = ({ properties }: { properties: Property[] }) => {
                     >
                       {property.imageUrls.map((imgUrl, imgIndex) => {
                         const convertionFormat = {
-                          w: Math.min(800, window.innerWidth),
+                          w: Math.min(800, width),
                           q: 50,
                           f: "webp",
                         };
