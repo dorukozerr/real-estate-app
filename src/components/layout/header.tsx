@@ -43,19 +43,21 @@ export const Header = () => {
         <h2 className="text-2xl font-bold sm:text-4xl">Emluck</h2>
       </Link>
       <div className="hidden items-center justify-start gap-4 sm:flex">
-        {links.map(({ href, label }, linkIndex) => (
-          <Link href={href} key={`headerLink-${linkIndex}`}>
-            <Button variant={pathname === href ? "outline" : "ghost"}>
-              {label}
-            </Button>
-          </Link>
-        ))}
+        {links
+          .filter(({ label }) => label !== "Anasayfa")
+          .map(({ href, label }, linkIndex) => (
+            <Link href={href} key={`headerLink-${linkIndex}`}>
+              <Button variant={pathname === href ? "outline" : "ghost"}>
+                {label}
+              </Button>
+            </Link>
+          ))}
         <ThemeToggler />
       </div>
       <div className="block sm:hidden">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline">
+            <Button variant="outline" size="icon">
               <HamburgerMenuIcon className="h-[1.2rem] w-[1.2rem]" />
             </Button>
           </DropdownMenuTrigger>
