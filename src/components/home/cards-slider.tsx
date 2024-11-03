@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -7,8 +8,11 @@ import { EffectCards, Navigation, Pagination } from "swiper/modules";
 import { Property } from "@/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const CardsSlider = ({ properties }: { properties: Property[] }) => {
+  const [loadedImages, setLoadedImages] = useState<string[]>([]);
+
   return (
     <div className="h-max w-full">
       <div className="mx-auto h-[550px] w-[300px] sm:w-[500px] lg:h-[min(400px,90vh)] lg:w-[min(900px,75vw)]">
@@ -41,13 +45,25 @@ export const CardsSlider = ({ properties }: { properties: Property[] }) => {
                           className="relative border-r border-border"
                           onMouseEnter={(e) => e.stopPropagation()}
                         >
+                          {loadedImages.includes(
+                            `${property._id}-${imgIndex}`
+                          ) ? null : (
+                            <Skeleton className="h-full w-full" />
+                          )}
                           <Image
                             src={img}
                             style={{ objectFit: "cover" }}
                             alt="Property Image"
+                            className={`${loadedImages.includes(`${property._id}-${imgIndex}`) ? "" : "hidden"}`}
                             fill={true}
                             sizes="100%"
                             priority={true}
+                            onLoad={() =>
+                              setLoadedImages((prevState) => [
+                                ...prevState,
+                                `${property._id}-${imgIndex}`,
+                              ])
+                            }
                           />
                         </SwiperSlide>
                       ))}
