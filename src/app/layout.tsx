@@ -49,8 +49,8 @@ const RootLayout = ({
             <main className="relative z-10 flex w-full flex-1 flex-col overflow-hidden">
               {children}
             </main>
-            <div className="absolute left-0 top-0 -z-10 h-[300vw] w-[300vw] animate-[spin_20000ms_linear_infinite] sm:h-full sm:w-full">
-              <div className="absolute left-1/2 top-1/2 h-[40vh] w-[100vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-pink-200 to-green-200 blur-3xl dark:from-[#3B4E68] dark:to-[#5F5255]"></div>
+            <div className="absolute -z-10 h-full w-full animate-[spin_20000ms_linear_infinite]">
+              <div className="absolute left-1/2 top-1/2 h-[100vw] w-[100vh] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-pink-200 to-green-200 blur-3xl dark:from-[#3B4E68] dark:to-[#5F5255] sm:h-[40vh] sm:w-[100vw]"></div>
             </div>
           </div>
           <Toaster />
