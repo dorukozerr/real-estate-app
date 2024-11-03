@@ -3,7 +3,6 @@ import { Fira_Sans_Condensed } from "next/font/google";
 import Link from "next/link";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ThemeToggler } from "@/components/theme/theme-toggler";
-import { BackgroundGradient } from "@/components/layout/background-gradient";
 import { Toaster } from "@/components/ui/sonner";
 
 import "swiper/css";
@@ -51,7 +50,7 @@ const RootLayout = ({
               {children}
             </main>
             <div className="absolute left-0 top-0 -z-10 h-[300vw] w-[300vw] animate-[spin_20000ms_linear_infinite] sm:h-full sm:w-full">
-              <BackgroundGradient />
+              <div className="absolute left-1/2 top-1/2 h-[40vh] w-[100vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-500 bg-gradient-to-r from-[#3B4E68] to-[#5F5255] blur-3xl"></div>
             </div>
           </div>
           <Toaster />
