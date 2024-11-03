@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCards, Navigation, Pagination } from "swiper/modules";
+import { imageFormatConverter } from "@/lib/imagekitio-image-optimizer";
 import { Property } from "@/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -24,7 +25,7 @@ export const CardsSlider = ({ properties }: { properties: Property[] }) => {
           effect="cards"
           cardsEffect={{ perSlideOffset: 7 }}
         >
-          {properties?.slice(0, 3).map((property) => (
+          {properties?.map((property) => (
             <SwiperSlide
               key={`slide-${property._id}`}
               className="h-full w-full rounded-2xl border border-border bg-background"
@@ -39,34 +40,53 @@ export const CardsSlider = ({ properties }: { properties: Property[] }) => {
                       navigation={true}
                       modules={[Pagination, Navigation]}
                     >
-                      {property.imageUrls.map((img, imgIndex) => (
-                        <SwiperSlide
-                          key={`img-${property._id}-${imgIndex}`}
-                          className="relative border-r border-border"
-                          onMouseEnter={(e) => e.stopPropagation()}
-                        >
-                          {loadedImages.includes(
-                            `${property._id}-${imgIndex}`
-                          ) ? null : (
-                            <Skeleton className="h-full w-full" />
-                          )}
-                          <Image
-                            src={img}
-                            style={{ objectFit: "cover" }}
-                            alt="Property Image"
-                            className={`${loadedImages.includes(`${property._id}-${imgIndex}`) ? "" : "hidden"}`}
-                            fill={true}
-                            sizes="100%"
-                            priority={true}
-                            onLoad={() =>
-                              setLoadedImages((prevState) => [
-                                ...prevState,
-                                `${property._id}-${imgIndex}`,
-                              ])
-                            }
-                          />
-                        </SwiperSlide>
-                      ))}
+                      {property.imageUrls.map((imgUrl, imgIndex) => {
+                        const convertionFormat = {
+                          w: Math.min(800, window.innerWidth),
+                          q: 50,
+                          f: "webp",
+                        };
+
+                        const convertedImgUrl = imageFormatConverter(
+                          imgUrl,
+                          convertionFormat
+                        );
+
+                        return (
+                          <SwiperSlide
+                            key={`img-${property._id}-${imgIndex}`}
+                            className="relative h-full w-full border-r border-border"
+                            onMouseEnter={(e) => e.stopPropagation()}
+                          >
+                            {loadedImages.includes(
+                              `${property._id}-${imgIndex}`
+                            ) ? null : (
+                              <Skeleton className="h-full w-full" />
+                            )}
+                            <Image
+                              src={convertedImgUrl}
+                              style={{
+                                objectFit: "cover",
+                                display: loadedImages.includes(
+                                  `${property._id}-${imgIndex}`
+                                )
+                                  ? "block"
+                                  : "hidden",
+                              }}
+                              alt="Property Image"
+                              fill={true}
+                              sizes="100%"
+                              priority={true}
+                              onLoad={() =>
+                                setLoadedImages((prevState) => [
+                                  ...prevState,
+                                  `${property._id}-${imgIndex}`,
+                                ])
+                              }
+                            />
+                          </SwiperSlide>
+                        );
+                      })}
                     </Swiper>
                   </div>
                 </div>
