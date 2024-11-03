@@ -3,7 +3,6 @@
 import * as React from "react";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,7 +14,7 @@ import {
 export const ThemeToggler = () => {
   const { setTheme } = useTheme();
 
-  const options = [
+  const themeOptions = [
     { label: "Aydınlık", onClick: () => setTheme("light") },
     { label: "Karanlık", onClick: () => setTheme("dark") },
     { label: "Sistem", onClick: () => setTheme("system") },
@@ -31,7 +30,7 @@ export const ThemeToggler = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        {options.map(({ label, onClick }, optionIndex) => (
+        {themeOptions.map(({ label, onClick }, optionIndex) => (
           <DropdownMenuItem
             onClick={onClick}
             key={`themeToggler-${optionIndex}`}
