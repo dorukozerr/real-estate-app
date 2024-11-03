@@ -38,7 +38,7 @@ export const CardsSlider = ({ properties }: { properties: Property[] }) => {
                 className="h-full w-full rounded-2xl border border-border bg-background"
               >
                 <div className="flex h-full w-full flex-col items-center justify-center lg:flex-row">
-                  <div className="relative h-full w-full max-w-[100%] flex-[1.5] overflow-hidden rounded-t-2xl lg:max-w-[60%]">
+                  <div className="relative h-full w-full max-w-[100%] flex-[1.5] overflow-hidden rounded-t-2xl lg:max-w-[60%] lg:rounded-t-none">
                     <div className="h-full w-full overflow-hidden">
                       <Swiper
                         onMouseEnter={(e) => e.stopPropagation()}
