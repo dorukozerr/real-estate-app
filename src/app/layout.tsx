@@ -14,7 +14,7 @@ import "./globals.css";
 
 const firaSans = Fira_Sans_Condensed({
   variable: "--font-fira",
-  weight: ["100", "200", "300", "400"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   subsets: ["latin-ext"],
 });
 
@@ -30,7 +30,10 @@ const RootLayout = ({
 }>) => {
   return (
     <html lang="en" suppressHydrationWarning={true} className="h-full">
-      <body suppressHydrationWarning={true} className={firaSans.variable}>
+      <body
+        suppressHydrationWarning={true}
+        className={`${firaSans.variable} h-full`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
