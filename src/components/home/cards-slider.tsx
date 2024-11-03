@@ -24,7 +24,7 @@ export const CardsSlider = ({ properties }: { properties: Property[] }) => {
           effect="cards"
           cardsEffect={{ perSlideOffset: 7 }}
         >
-          {properties?.map((property) => (
+          {properties?.slice(0, 3).map((property) => (
             <SwiperSlide
               key={`slide-${property._id}`}
               className="h-full w-full rounded-2xl border border-border bg-background"
