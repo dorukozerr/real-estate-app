@@ -20,6 +20,21 @@ export const getFeaturedProperties = async () => {
     .toArray();
 };
 
+export const getPropertiesForRent = async () => {
+  const client = await clientPromise;
+  const collection = client.db("real-estate").collection("properties");
+  return collection.find({ isForRent: true }).sort({ createdAt: -1 }).toArray();
+};
+
+export const getPropertiesForSale = async () => {
+  const client = await clientPromise;
+  const collection = client.db("real-estate").collection("properties");
+  return collection
+    .find({ isForRent: false })
+    .sort({ createdAt: -1 })
+    .toArray();
+};
+
 export const createProperty = async (
   property: Omit<Property, "_id" | "createdAt">
 ) => {
@@ -79,7 +94,6 @@ export const populateProperties = async () => {
       isFeatured: Math.random() > 0.5 ? true : false,
       isForRent: Math.random() > 0.5 ? true : false,
       roomCount: "2+1",
-
       tags: ["test tag 1", "test tag 2", "test tag 3", "test tag 4"],
     };
     const result = await collection.insertOne({
@@ -102,18 +116,13 @@ export const login = async ({
 }) => {
   const client = await clientPromise;
   const collection = client.db("real-estate").collection("admins");
-
   const user = await collection.findOne({ username });
-
   // TODO - Add some security cookie here and also add some auth middleware to update, create, delete, populate routes
-
   if (!user) {
     return false;
   }
-
   if (user.password !== password) {
     return false;
   }
-
   return true;
 };
