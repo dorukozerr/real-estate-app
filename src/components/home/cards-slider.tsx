@@ -50,7 +50,7 @@ export const CardsSlider = ({ properties }: { properties: Property[] }) => {
                         {property.imageUrls.map((imgUrl, imgIndex) => {
                           const convertionFormat = {
                             w: Math.min(800, width),
-                            q: 50,
+                            q: 100,
                             f: "webp",
                           };
 
