@@ -4,8 +4,9 @@ import { CardsSlider } from "@/components/home/cards-slider";
 
 const Home = async () => {
   const featuredProperties = await getFeaturedProperties();
-  const properties = (await getProperties()) as unknown as Property[];
+  const properties = await getProperties();
   const fp = JSON.parse(JSON.stringify(featuredProperties)) as Property[];
+  const p = JSON.parse(JSON.stringify(properties)) as Property[];
 
   return (
     <main className="flex min-h-full w-full grow flex-col items-center gap-8 overflow-auto overflow-x-hidden px-4 py-8 sm:gap-16 sm:py-16">
@@ -19,7 +20,7 @@ const Home = async () => {
             Satılık İlanlar
           </span>
           <span className="text-7xl font-bold">
-            {properties.filter((property) => !property.isForRent).length}
+            {p.filter((property) => !property.isForRent).length}
           </span>
         </div>
         <div className="flex flex-col items-start justify-start">
@@ -27,7 +28,7 @@ const Home = async () => {
             Kiralık İlanlar
           </span>
           <span className="text-7xl font-bold">
-            {properties.filter((property) => property.isForRent).length}
+            {p.filter((property) => property.isForRent).length}
           </span>
         </div>
       </div>
