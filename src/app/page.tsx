@@ -2,7 +2,7 @@ import { getFeaturedProperties, getProperties } from "@/actions";
 import { Property } from "@/types";
 import { CardsSlider } from "@/components/home/cards-slider";
 
-const Home = async () => {
+const Page = async () => {
   const featuredProperties = await getFeaturedProperties();
   const properties = await getProperties();
   const fp = JSON.parse(JSON.stringify(featuredProperties)) as Property[];
@@ -36,4 +36,4 @@ const Home = async () => {
   );
 };
 
-export default Home;
+export default Page;

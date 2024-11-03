@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Fira_Sans_Condensed } from "next/font/google";
-import Link from "next/link";
 import { ThemeProvider } from "@/components/theme/theme-provider";
-import { ThemeToggler } from "@/components/theme/theme-toggler";
 import { Toaster } from "@/components/ui/sonner";
+import { Header } from "@/components/layout/header";
 
 import "swiper/css";
 import "swiper/css/effect-cards";
@@ -39,12 +38,7 @@ const RootLayout = ({
         disableTransitionOnChange
       >
         <div className="relative flex h-full w-full flex-col overflow-hidden">
-          <header className="relative z-10 mx-auto flex h-[70px] min-h-[70px] w-screen max-w-[1440px] items-center justify-between border-b border-border px-4">
-            <Link href="/">
-              <h2 className="text-2xl font-bold sm:text-4xl">Emluck</h2>
-            </Link>
-            <ThemeToggler />
-          </header>
+          <Header />
           <main className="relative z-10 flex w-full flex-1 flex-col overflow-hidden">
             {children}
           </main>

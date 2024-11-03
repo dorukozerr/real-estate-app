@@ -80,6 +80,7 @@ export const CardsSlider = ({ properties }: { properties: Property[] }) => {
                                     ? "block"
                                     : "hidden",
                                 }}
+                                priority={true}
                                 alt="Property Image"
                                 fill={true}
                                 sizes="100%"

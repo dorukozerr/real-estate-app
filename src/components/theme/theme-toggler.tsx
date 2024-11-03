@@ -15,6 +15,12 @@ import {
 export const ThemeToggler = () => {
   const { setTheme } = useTheme();
 
+  const options = [
+    { label: "Aydınlık", onClick: () => setTheme("light") },
+    { label: "Karanlık", onClick: () => setTheme("dark") },
+    { label: "Sistem", onClick: () => setTheme("system") },
+  ];
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -25,15 +31,14 @@ export const ThemeToggler = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
-        </DropdownMenuItem>
+        {options.map(({ label, onClick }, optionIndex) => (
+          <DropdownMenuItem
+            onClick={onClick}
+            key={`themeToggler-${optionIndex}`}
+          >
+            {label}
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );
