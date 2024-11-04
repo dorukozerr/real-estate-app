@@ -96,6 +96,7 @@ export const updateProperty = async (
 
   revalidatePath("/");
   revalidatePath("/admin");
+  revalidatePath(`/property/${id}`);
 
   return result;
 };
@@ -113,6 +114,7 @@ export const deleteProperty = async (id: string) => {
 
   revalidatePath("/");
   revalidatePath("/admin");
+  revalidatePath(`/property/${id}`);
 
   return result;
 };
