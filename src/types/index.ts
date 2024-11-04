@@ -7,7 +7,7 @@ export interface Property {
   description: string;
   isFeatured: boolean;
   isForRent: boolean;
-  createdAt: Date;
+  createdAt: string;
   roomCount: string;
   tags: string[];
 }
