@@ -7,7 +7,7 @@ import {
   Cross2Icon,
   DotsHorizontalIcon,
 } from "@radix-ui/react-icons";
-import { populateProperties } from "@/actions";
+import { logout } from "@/actions";
 import { Property, PropertyDialogState } from "@/types";
 import { PropertyDialog } from "@/components/admin/property-dialog";
 import { DeleteDialog } from "@/components/admin/delete-dialog";
@@ -126,13 +126,13 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
   return (
     <>
       <div className="flex h-full w-full flex-col items-start justify-start gap-4">
-        <div className="flex w-full items-center justify-end">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => openCreateDialog()}
-          >
+        <div className="flex w-full items-center justify-end gap-4">
+          <Button variant="outline" onClick={() => openCreateDialog()}>
             <Plus className="h-[1.2rem] w-[1.2rem]" />
+            <span>Add Property</span>
+          </Button>
+          <Button variant="outline" onClick={async () => await logout()}>
+            Logout
           </Button>
         </div>
         {properties.length ? (
@@ -186,12 +186,6 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
             </Button>
           </div>
         )}
-        <div className="flex w-full items-center justify-end">
-          <Button onClick={async () => await populateProperties()}>
-            <Plus className="h-[1.2rem] w-[1.2rem]" />
-            <span>Populate</span>
-          </Button>
-        </div>
       </div>
       <PropertyDialog
         open={propertyDialogState.open}

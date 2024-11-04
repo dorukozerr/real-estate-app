@@ -1,19 +1,46 @@
 "use server";
 
+import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
-import clientPromise from "@/lib/mongodb";
 import { Property } from "@/types";
 import { ObjectId } from "mongodb";
+import { compare } from "bcryptjs";
+import { verify, sign } from "jsonwebtoken";
+import clientPromise from "@/lib/mongodb";
+
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET is not defined in .env");
+}
+
+export const checkAuth = async () => {
+  const cookieStore = cookies();
+  const token = cookieStore.get("admin-token");
+  if (!token) {
+    return false;
+  }
+  try {
+    verify(token.value, JWT_SECRET);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+const getCollection = async (collectionName: string) => {
+  const client = await clientPromise;
+  const collection = client.db("real-estate").collection(collectionName);
+  return collection;
+};
 
 export const getProperties = async () => {
-  const client = await clientPromise;
-  const collection = client.db("real-estate").collection("properties");
+  const collection = await getCollection("properties");
   return collection.find().sort({ createdAt: -1 }).toArray();
 };
 
 export const getFeaturedProperties = async () => {
-  const client = await clientPromise;
-  const collection = client.db("real-estate").collection("properties");
+  const collection = await getCollection("properties");
   return collection
     .find({ isFeatured: true })
     .sort({ createdAt: -1 })
@@ -21,14 +48,12 @@ export const getFeaturedProperties = async () => {
 };
 
 export const getPropertiesForRent = async () => {
-  const client = await clientPromise;
-  const collection = client.db("real-estate").collection("properties");
+  const collection = await getCollection("properties");
   return collection.find({ isForRent: true }).sort({ createdAt: -1 }).toArray();
 };
 
 export const getPropertiesForSale = async () => {
-  const client = await clientPromise;
-  const collection = client.db("real-estate").collection("properties");
+  const collection = await getCollection("properties");
   return collection
     .find({ isForRent: false })
     .sort({ createdAt: -1 })
@@ -38,8 +63,11 @@ export const getPropertiesForSale = async () => {
 export const createProperty = async (
   property: Omit<Property, "_id" | "createdAt">
 ) => {
-  const client = await clientPromise;
-  const collection = client.db("real-estate").collection("properties");
+  const isAuthenticated = await checkAuth();
+  if (!isAuthenticated) {
+    throw new Error("Not Authenticated");
+  }
+  const collection = await getCollection("properties");
   const result = await collection.insertOne({
     ...property,
     createdAt: new Date(),
@@ -53,8 +81,11 @@ export const updateProperty = async (
   id: string,
   property: Partial<Property>
 ) => {
-  const client = await clientPromise;
-  const collection = client.db("real-estate").collection("properties");
+  const isAuthenticated = await checkAuth();
+  if (!isAuthenticated) {
+    throw new Error("Not Authenticated");
+  }
+  const collection = await getCollection("properties");
   const result = await collection.updateOne(
     { _id: new ObjectId(id) },
     { $set: property }
@@ -65,8 +96,11 @@ export const updateProperty = async (
 };
 
 export const deleteProperty = async (id: string) => {
-  const client = await clientPromise;
-  const collection = client.db("real-estate").collection("properties");
+  const isAuthenticated = await checkAuth();
+  if (!isAuthenticated) {
+    throw new Error("Not Authenticated");
+  }
+  const collection = await getCollection("properties");
   const result = await collection.deleteOne({ _id: new ObjectId(id) });
   revalidatePath("/");
   revalidatePath("/admin");
@@ -74,8 +108,11 @@ export const deleteProperty = async (id: string) => {
 };
 
 export const populateProperties = async () => {
-  const client = await clientPromise;
-  const collection = client.db("real-estate").collection("properties");
+  const isAuthenticated = await checkAuth();
+  if (!isAuthenticated) {
+    throw new Error("Not Authenticated");
+  }
+  const collection = await getCollection("properties");
   const results = [];
   for (let i = 0; i < 50; i++) {
     const data = {
@@ -114,15 +151,40 @@ export const login = async ({
   username: string;
   password: string;
 }) => {
-  const client = await clientPromise;
-  const collection = client.db("real-estate").collection("admins");
+  const collection = await getCollection("admins");
   const user = await collection.findOne({ username });
-  // TODO - Add some security cookie here and also add some auth middleware to update, create, delete, populate routes
   if (!user) {
     return false;
   }
-  if (user.password !== password) {
+  const isValidPassword = await compare(password, user.password);
+  if (!isValidPassword) {
     return false;
   }
+  const token = sign({ username }, JWT_SECRET, { expiresIn: "24h" });
+  cookies().set({
+    name: "admin-token",
+    value: token,
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 60 * 60 * 24,
+  });
+  revalidatePath("/admin");
   return true;
+};
+
+export const logout = async () => {
+  const isAuthenticated = await checkAuth();
+  if (!isAuthenticated) {
+    throw new Error("Not Authenticated");
+  }
+  cookies().set({
+    name: "admin-token",
+    value: "",
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 0,
+  });
+  revalidatePath("/admin");
 };

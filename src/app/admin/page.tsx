@@ -1,14 +1,17 @@
-import { getProperties } from "@/actions";
+import { getProperties, checkAuth } from "@/actions";
 import { Property } from "@/types";
-import { Authentication } from "@/components/admin/authentication";
+import { LoginForm } from "@/components/admin/login-form";
+import { AdminPage } from "@/components/admin/admin-page";
 
 const Page = async () => {
   const properties = await getProperties();
   const p = JSON.parse(JSON.stringify(properties)) as Property[];
 
+  const isAuthenticated = await checkAuth();
+
   return (
     <div className="mx-auto h-full w-full max-w-[1440px] overflow-auto p-4">
-      <Authentication properties={p} />
+      {isAuthenticated ? <AdminPage properties={p} /> : <LoginForm />}
     </div>
   );
 };
