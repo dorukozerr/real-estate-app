@@ -97,15 +97,15 @@ export const CardsSlider = ({ properties }: { properties: Property[] }) => {
                       </Swiper>
                     </div>
                   </div>
-                  <div className="flex h-full min-w-[100%] flex-1 flex-col gap-4 p-4 md:gap-6 md:p-6 lg:min-w-[40%]">
-                    <h3 className="text-2xl font-bold tracking-tight text-primary sm:text-3xl">
+                  <div className="flex h-full w-[100%] flex-1 flex-col gap-4 p-4 md:gap-6 md:p-6 lg:w-[40%]">
+                    <h3 className="min-h-max w-full truncate text-2xl font-bold tracking-tight text-primary sm:text-3xl">
                       {property.title}
                     </h3>
-                    <h5 className="text-base font-medium text-muted-foreground sm:text-lg">
+                    <h5 className="min-h-max w-full truncate text-base font-medium text-muted-foreground sm:text-lg">
                       {property.location}
                     </h5>
-                    <div className="flex items-center justify-start gap-2 sm:gap-4">
-                      <span className="text-xl font-semibold text-primary sm:text-2xl">
+                    <div className="flex min-h-max w-full items-center justify-start gap-2 sm:gap-4">
+                      <span className="w-full truncate text-xl font-semibold text-primary sm:text-2xl">
                         {property.price.toLocaleString()} ₺
                       </span>
                       <Badge className="text-sm font-medium sm:text-base">
@@ -115,14 +115,14 @@ export const CardsSlider = ({ properties }: { properties: Property[] }) => {
                         {property.isForRent ? "Kiralık" : "Satılık"}
                       </Badge>
                     </div>
-                    <div className="flex flex-wrap items-center justify-start gap-3">
+                    <div className="flex w-full flex-wrap items-center justify-start gap-3">
                       {property.tags.slice(0, 4).map((tag, tagIndex) => (
                         <Badge
-                          className="text-xs font-medium tracking-wide sm:text-sm"
+                          className="truncate text-xs font-medium tracking-wide sm:text-sm"
                           variant="outline"
                           key={`propertyTag-${property._id}-${tagIndex}`}
                         >
-                          {tag}
+                          {tag.length > 15 ? `${tag.slice(0, 15)}... ` : tag}
                         </Badge>
                       ))}
                     </div>
