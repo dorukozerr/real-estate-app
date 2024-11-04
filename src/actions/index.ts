@@ -18,10 +18,13 @@ export const checkAuth = async () => {
   try {
     const cookieStore = cookies();
     const token = cookieStore.get("admin-token");
+
     if (!token) {
       return false;
     }
+
     verify(token.value, JWT_SECRET);
+
     return true;
   } catch {
     return false;
@@ -30,6 +33,9 @@ export const checkAuth = async () => {
 
 const getCollection = async (collectionName: string) =>
   (await clientPromise).db("real-estate").collection(collectionName);
+
+export const getProperty = async (id: string) =>
+  (await getCollection("properties")).findOne({ _id: new ObjectId(id) });
 
 export const getProperties = async () =>
   (await getCollection("properties")).find().sort({ createdAt: -1 }).toArray();
@@ -56,16 +62,21 @@ export const createProperty = async (
   property: Omit<Property, "_id" | "createdAt">
 ) => {
   const isAuthenticated = await checkAuth();
+
   if (!isAuthenticated) {
     throw new Error("Not Authenticated");
   }
-  const collection = await getCollection("properties");
-  const result = await collection.insertOne({
+
+  const result = await (
+    await getCollection("properties")
+  ).insertOne({
     ...property,
     createdAt: new Date(),
   });
+
   revalidatePath("/");
   revalidatePath("/admin");
+
   return result;
 };
 
@@ -74,38 +85,49 @@ export const updateProperty = async (
   property: Partial<Property>
 ) => {
   const isAuthenticated = await checkAuth();
+
   if (!isAuthenticated) {
     throw new Error("Not Authenticated");
   }
-  const collection = await getCollection("properties");
-  const result = await collection.updateOne(
-    { _id: new ObjectId(id) },
-    { $set: property }
-  );
+
+  const result = await (
+    await getCollection("properties")
+  ).updateOne({ _id: new ObjectId(id) }, { $set: property });
+
   revalidatePath("/");
   revalidatePath("/admin");
+
   return result;
 };
 
 export const deleteProperty = async (id: string) => {
   const isAuthenticated = await checkAuth();
+
   if (!isAuthenticated) {
     throw new Error("Not Authenticated");
   }
-  const collection = await getCollection("properties");
-  const result = await collection.deleteOne({ _id: new ObjectId(id) });
+
+  const result = await (
+    await getCollection("properties")
+  ).deleteOne({ _id: new ObjectId(id) });
+
   revalidatePath("/");
   revalidatePath("/admin");
+
   return result;
 };
 
 export const populateProperties = async () => {
   const isAuthenticated = await checkAuth();
+
   if (!isAuthenticated) {
     throw new Error("Not Authenticated");
   }
+
   const collection = await getCollection("properties");
+
   const results = [];
+
   for (let i = 0; i < 50; i++) {
     const data = {
       title: `Test Title ${i + 1}`,
@@ -125,14 +147,18 @@ export const populateProperties = async () => {
       roomCount: "2+1",
       tags: ["test tag 1", "test tag 2", "test tag 3", "test tag 4"],
     };
+
     const result = await collection.insertOne({
       ...data,
       createdAt: new Date(),
     });
+
     results.push(result);
   }
+
   revalidatePath("/");
   revalidatePath("/admin");
+
   return results;
 };
 
@@ -143,33 +169,39 @@ export const login = async ({
   username: string;
   password: string;
 }) => {
-  const collection = await getCollection("admins");
-  const user = await collection.findOne({ username });
+  const user = await (await getCollection("admins")).findOne({ username });
+
   if (!user) {
     return false;
   }
-  const isValidPassword = await compare(password, user.password);
-  if (!isValidPassword) {
+
+  const doesPasswordsMatch = await compare(password, user.password);
+
+  if (!doesPasswordsMatch) {
     return false;
   }
-  const token = sign({ username }, JWT_SECRET, { expiresIn: "24h" });
+
   cookies().set({
     name: "admin-token",
-    value: token,
+    value: sign({ username }, JWT_SECRET, { expiresIn: "24h" }),
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
     maxAge: 60 * 60 * 24,
   });
+
   revalidatePath("/admin");
+
   return true;
 };
 
 export const logout = async () => {
   const isAuthenticated = await checkAuth();
+
   if (!isAuthenticated) {
     throw new Error("Not Authenticated");
   }
+
   cookies().set({
     name: "admin-token",
     value: "",
@@ -178,8 +210,6 @@ export const logout = async () => {
     sameSite: "strict",
     maxAge: 0,
   });
+
   revalidatePath("/admin");
 };
-
-export const getProperty = async (id: string) =>
-  (await getCollection("properties")).findOne({ _id: new ObjectId(id) });
