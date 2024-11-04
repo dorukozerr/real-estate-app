@@ -15,12 +15,12 @@ if (!JWT_SECRET) {
 }
 
 export const checkAuth = async () => {
-  const cookieStore = cookies();
-  const token = cookieStore.get("admin-token");
-  if (!token) {
-    return false;
-  }
   try {
+    const cookieStore = cookies();
+    const token = cookieStore.get("admin-token");
+    if (!token) {
+      return false;
+    }
     verify(token.value, JWT_SECRET);
     return true;
   } catch {
@@ -28,37 +28,29 @@ export const checkAuth = async () => {
   }
 };
 
-const getCollection = async (collectionName: string) => {
-  const client = await clientPromise;
-  const collection = client.db("real-estate").collection(collectionName);
-  return collection;
-};
+const getCollection = async (collectionName: string) =>
+  (await clientPromise).db("real-estate").collection(collectionName);
 
-export const getProperties = async () => {
-  const collection = await getCollection("properties");
-  return collection.find().sort({ createdAt: -1 }).toArray();
-};
+export const getProperties = async () =>
+  (await getCollection("properties")).find().sort({ createdAt: -1 }).toArray();
 
-export const getFeaturedProperties = async () => {
-  const collection = await getCollection("properties");
-  return collection
+export const getFeaturedProperties = async () =>
+  (await getCollection("properties"))
     .find({ isFeatured: true })
     .sort({ createdAt: -1 })
     .toArray();
-};
 
-export const getPropertiesForRent = async () => {
-  const collection = await getCollection("properties");
-  return collection.find({ isForRent: true }).sort({ createdAt: -1 }).toArray();
-};
+export const getPropertiesForRent = async () =>
+  (await getCollection("properties"))
+    .find({ isForRent: true })
+    .sort({ createdAt: -1 })
+    .toArray();
 
-export const getPropertiesForSale = async () => {
-  const collection = await getCollection("properties");
-  return collection
+export const getPropertiesForSale = async () =>
+  (await getCollection("properties"))
     .find({ isForRent: false })
     .sort({ createdAt: -1 })
     .toArray();
-};
 
 export const createProperty = async (
   property: Omit<Property, "_id" | "createdAt">
@@ -188,3 +180,6 @@ export const logout = async () => {
   });
   revalidatePath("/admin");
 };
+
+export const getProperty = async (id: string) =>
+  (await getCollection("properties")).findOne({ _id: new ObjectId(id) });

@@ -12,7 +12,7 @@ const Page = async () => {
         <div className="flex h-full w-full flex-col gap-4 p-4">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold sm:text-3xl">
-              Kiralık İlanlar
+              Kiralık İlanlar - {p.length}
             </h2>
           </div>
           <div className="grid h-full w-full flex-1 grid-cols-1 gap-4 overflow-auto rounded-lg p-0 shadow-[10px_0px_25px_0px_rgba(0,0,0,0.25)] dark:shadow-[10px_0px_25px_0px_rgba(255,255,255,0.25)] sm:p-4 md:grid-cols-2 xl:grid-cols-3">
