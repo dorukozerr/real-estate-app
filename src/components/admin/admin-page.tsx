@@ -8,7 +8,7 @@ import {
   DotsHorizontalIcon,
 } from "@radix-ui/react-icons";
 import { logout } from "@/actions";
-import { Property, PropertyDialogState } from "@/types";
+import { Property } from "@/types";
 import { PropertyDialog } from "@/components/admin/property-dialog";
 import { DeleteDialog } from "@/components/admin/delete-dialog";
 import {
@@ -29,12 +29,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export const AdminPage = ({ properties }: { properties: Property[] }) => {
-  const [propertyDialogState, setPropertyDialogState] =
-    useState<PropertyDialogState>({
-      mode: "",
-      open: false,
-      property: null,
-    });
+  const [propertyDialogState, setPropertyDialogState] = useState<
+    | { mode: "create"; open: boolean; property: null }
+    | { mode: "edit"; open: boolean; property: Property }
+    | { mode: ""; open: boolean; property: null }
+  >({
+    mode: "",
+    open: false,
+    property: null,
+  });
   const [deleteDialogState, setDeleteDialogState] = useState<{
     open: boolean;
     id: string;
