@@ -10,8 +10,8 @@ export const ImageSlider = ({ imageUrls }: { imageUrls: string[] }) => (
     className="h-full w-full"
     spaceBetween={0}
     slidesPerView={1}
-    pagination={true}
-    navigation={true}
+    pagination={imageUrls.length > 1}
+    navigation={imageUrls.length > 1}
     modules={[Pagination, Navigation]}
   >
     {imageUrls.map((url, urlIndex) => {

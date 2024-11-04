@@ -43,8 +43,8 @@ export const CardsSlider = ({ properties }: { properties: Property[] }) => {
                       <Swiper
                         onMouseEnter={(e) => e.stopPropagation()}
                         className="h-full w-full"
-                        pagination={true}
-                        navigation={true}
+                        pagination={property.imageUrls.length > 1}
+                        navigation={property.imageUrls.length > 1}
                         modules={[Pagination, Navigation]}
                       >
                         {property.imageUrls.map((imgUrl, imgIndex) => {
