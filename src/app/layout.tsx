@@ -26,11 +26,8 @@ const RootLayout = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => (
-  <html lang="en" suppressHydrationWarning={true} className="h-full">
-    <body
-      suppressHydrationWarning={true}
-      className={`${firaSans.variable} h-full`}
-    >
+  <html lang="en" className="h-full">
+    <body className={`${firaSans.variable} h-full`}>
       <ThemeProvider
         attribute="class"
         defaultTheme="system"
