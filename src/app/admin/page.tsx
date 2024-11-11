@@ -1,7 +1,16 @@
+import dynamic from "next/dynamic";
 import { getProperties, checkAuth } from "@/actions";
 import { Property } from "@/types";
-import { LoginForm } from "@/components/admin/login-form";
-import { AdminPage } from "@/components/admin/admin-page";
+
+const LoginForm = dynamic(
+  () => import("@/components/admin/login-form").then((mod) => mod.LoginForm),
+  { ssr: false }
+);
+
+const AdminPage = dynamic(
+  () => import("@/components/admin/admin-page").then((mod) => mod.AdminPage),
+  { ssr: false }
+);
 
 const Page = async () => {
   const properties = await getProperties();
