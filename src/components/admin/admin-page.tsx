@@ -67,63 +67,65 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
       property: null,
     });
 
-  const renderActions = (property: Property) => (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
-          <DotsHorizontalIcon className="h-[1.2rem] w-[1.2rem]" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuItem onClick={() => openEditDialog(property)}>
-          Edit
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() =>
-            setDeleteDialogState({
-              open: true,
-              id: property._id ? property._id : "",
-            })
-          }
-        >
-          Delete
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-  const renderStr = (str: string) => str;
-  const renderPrice = (num: number) => `${num?.toLocaleString()} ₺`;
-  const renderImageUrls = (arr: string[]) => arr.length;
-  const renderBoolean = (flag: boolean) =>
-    flag ? (
-      <Badge>
-        <CheckIcon className="h-[1.2rem] w-[1.2rem]" />
-      </Badge>
-    ) : (
-      <Badge>
-        <Cross2Icon className="h-[1.2rem] w-[1.2rem]" />
-      </Badge>
-    );
-  const renderDate = (timestamp: string) =>
-    new Date(timestamp).toLocaleDateString("tr-TR");
-  const renderTags = (tags: string[]) => (
-    <div className="flex items-center justify-start gap-2">
-      {tags?.map((tag, index) => <Badge key={`badge-${index}`}>{tag}</Badge>)}
-    </div>
-  );
+  const renderMethods = {
+    actions: (property: Property) => (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" size="icon">
+            <DotsHorizontalIcon className="h-[1.2rem] w-[1.2rem]" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem onClick={() => openEditDialog(property)}>
+            Edit
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() =>
+              setDeleteDialogState({
+                open: true,
+                id: property._id ? property._id : "",
+              })
+            }
+          >
+            Delete
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    ),
+    string: (str: string) => str,
+    price: (num: number) => `${num?.toLocaleString("tr-TR")} ₺`,
+    imageUrls: (arr: string[]) => arr.length,
+    boolean: (flag: boolean) =>
+      flag ? (
+        <Badge>
+          <CheckIcon className="h-[1.2rem] w-[1.2rem]" />
+        </Badge>
+      ) : (
+        <Badge>
+          <Cross2Icon className="h-[1.2rem] w-[1.2rem]" />
+        </Badge>
+      ),
+    date: (timestamp: string) =>
+      new Date(timestamp).toLocaleDateString("tr-TR"),
+    tags: (tags: string[]) => (
+      <div className="flex items-center justify-start gap-2">
+        {tags?.map((tag, index) => <Badge key={`badge-${index}`}>{tag}</Badge>)}
+      </div>
+    ),
+  };
 
   const fields = [
-    { field: "", render: renderActions },
-    { field: "title", render: renderStr },
-    { field: "price", render: renderPrice },
-    { field: "location", render: renderStr },
-    { field: "imageUrls", render: renderImageUrls },
-    { field: "description", render: renderStr },
-    { field: "isFeatured", render: renderBoolean },
-    { field: "isForRent", render: renderBoolean },
-    { field: "createdAt", render: renderDate },
-    { field: "roomCount", render: renderStr },
-    { field: "tags", render: renderTags },
+    { field: "", render: renderMethods.actions },
+    { field: "title", render: renderMethods.string },
+    { field: "price", render: renderMethods.price },
+    { field: "location", render: renderMethods.string },
+    { field: "imageUrls", render: renderMethods.imageUrls },
+    { field: "description", render: renderMethods.string },
+    { field: "isFeatured", render: renderMethods.boolean },
+    { field: "isForRent", render: renderMethods.boolean },
+    { field: "createdAt", render: renderMethods.date },
+    { field: "roomCount", render: renderMethods.string },
+    { field: "tags", render: renderMethods.tags },
   ] as const;
 
   return (
