@@ -93,7 +93,7 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
       </DropdownMenu>
     ),
     string: (str: string) => str,
-    price: (num: number) => `${num?.toLocaleString("tr-TR")} ₺`,
+    price: (num: number) => `${num?.toLocaleString("tr")} ₺`,
     imageUrls: (arr: string[]) => arr.length,
     boolean: (flag: boolean) =>
       flag ? (
@@ -105,8 +105,7 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
           <Cross2Icon className="h-[1.2rem] w-[1.2rem]" />
         </Badge>
       ),
-    date: (timestamp: string) =>
-      new Date(timestamp).toLocaleDateString("tr-TR"),
+    date: (timestamp: string) => new Date(timestamp).toLocaleDateString("tr"),
     tags: (tags: string[]) => (
       <div className="flex items-center justify-start gap-2">
         {tags?.map((tag, index) => <Badge key={`badge-${index}`}>{tag}</Badge>)}
