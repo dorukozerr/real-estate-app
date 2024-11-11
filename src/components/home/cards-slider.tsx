@@ -13,6 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export const CardsSlider = ({ properties }: { properties: Property[] }) => {
   const [loadedImages, setLoadedImages] = useState<string[]>([]);
+  const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [width, setWidth] = useState(1920);
 
   useEffect(() => {
@@ -24,27 +25,25 @@ export const CardsSlider = ({ properties }: { properties: Property[] }) => {
       <div className="mx-auto h-[550px] w-[300px] sm:w-[500px] lg:h-[min(400px,90vh)] lg:w-[min(900px,75vw)]">
         <Swiper
           className="h-full w-full"
-          spaceBetween={0}
           slidesPerView={1}
           modules={[EffectCards]}
           effect="cards"
-          cardsEffect={{ perSlideOffset: 7 }}
+          onSlideChange={(e) => setActiveSlideIndex(e.activeIndex)}
         >
-          {properties
-            ?.slice(0, width > 768 ? properties.length : 5)
-            .map((property) => (
-              <SwiperSlide
-                key={`slide-${property._id}`}
-                className="h-full w-full rounded-2xl border border-border bg-background"
-              >
-                <div className="flex h-full w-full flex-col items-center justify-center lg:flex-row">
-                  <div className="relative h-full w-full max-w-[100%] flex-[1.5] overflow-hidden rounded-t-2xl lg:max-w-[60%] lg:rounded-t-none">
-                    <div className="h-full w-full overflow-hidden">
+          {properties?.map((property, slideIndex) => (
+            <SwiperSlide
+              key={`slide-${property._id}`}
+              className="h-full w-full rounded-2xl border border-border bg-background"
+            >
+              <div className="flex h-full w-full flex-col items-center justify-center lg:flex-row">
+                <div className="relative h-full w-full max-w-[100%] flex-[1.5] overflow-hidden rounded-t-2xl lg:max-w-[60%] lg:rounded-t-none">
+                  <div className="h-full w-full overflow-hidden">
+                    {activeSlideIndex === slideIndex ? (
                       <Swiper
                         onMouseEnter={(e) => e.stopPropagation()}
                         className="h-full w-full"
-                        pagination={property.imageUrls.length > 1}
-                        navigation={property.imageUrls.length > 1}
+                        pagination={true}
+                        navigation={true}
                         modules={[Pagination, Navigation]}
                       >
                         {property.imageUrls.map((imgUrl, imgIndex) => {
@@ -78,7 +77,7 @@ export const CardsSlider = ({ properties }: { properties: Property[] }) => {
                                     `${property._id}-${imgIndex}`
                                   )
                                     ? "block"
-                                    : "hidden",
+                                    : "none",
                                 }}
                                 priority={true}
                                 alt="Property Image"
@@ -95,50 +94,51 @@ export const CardsSlider = ({ properties }: { properties: Property[] }) => {
                           );
                         })}
                       </Swiper>
-                    </div>
-                  </div>
-                  <div className="flex h-full w-[100%] flex-1 flex-col gap-4 p-4 md:gap-6 md:p-6 lg:w-[40%]">
-                    <h3 className="min-h-max w-full truncate text-2xl font-bold tracking-tight text-primary sm:text-3xl">
-                      {property.title}
-                    </h3>
-                    <h5 className="min-h-max w-full truncate text-base font-medium text-muted-foreground sm:text-lg">
-                      {property.location}
-                    </h5>
-                    <div className="flex min-h-max w-full items-center justify-start gap-2 sm:gap-4">
-                      <span className="w-full truncate text-xl font-semibold text-primary sm:text-2xl">
-                        {property.price.toLocaleString()} ₺
-                      </span>
-                      <Badge className="text-sm font-medium sm:text-base">
-                        {property.roomCount}
-                      </Badge>
-                      <Badge className="text-sm font-medium sm:text-base">
-                        {property.isForRent ? "Kiralık" : "Satılık"}
-                      </Badge>
-                    </div>
-                    <div className="flex w-full flex-wrap items-center justify-start gap-3">
-                      {property.tags.slice(0, 4).map((tag, tagIndex) => (
-                        <Badge
-                          className="truncate text-xs font-medium tracking-wide sm:text-sm"
-                          variant="outline"
-                          key={`propertyTag-${property._id}-${tagIndex}`}
-                        >
-                          {tag.length > 15 ? `${tag.slice(0, 15)}... ` : tag}
-                        </Badge>
-                      ))}
-                    </div>
-                    <div className="flex-1" />
-                    <Link href={`/property/${property._id}`} className="w-full">
-                      <Button
-                        className="w-full text-base font-semibold"
-                        size="lg"
-                      >
-                        Detaylar
-                      </Button>
-                    </Link>
+                    ) : null}
                   </div>
                 </div>
-              </SwiperSlide>
-            ))}
+                <div className="flex h-full w-[100%] flex-1 flex-col gap-4 p-4 md:gap-6 md:p-6 lg:w-[40%]">
+                  <h3 className="min-h-max w-full truncate text-2xl font-bold tracking-tight text-primary sm:text-3xl">
+                    {property.title}
+                  </h3>
+                  <h5 className="min-h-max w-full truncate text-base font-medium text-muted-foreground sm:text-lg">
+                    {property.location}
+                  </h5>
+                  <div className="flex min-h-max w-full items-center justify-start gap-2 sm:gap-4">
+                    <span className="w-full truncate text-xl font-semibold text-primary sm:text-2xl">
+                      {property.price.toLocaleString()} ₺
+                    </span>
+                    <Badge className="text-sm font-medium sm:text-base">
+                      {property.roomCount}
+                    </Badge>
+                    <Badge className="text-sm font-medium sm:text-base">
+                      {property.isForRent ? "Kiralık" : "Satılık"}
+                    </Badge>
+                  </div>
+                  <div className="flex w-full flex-wrap items-center justify-start gap-3">
+                    {property.tags.slice(0, 4).map((tag, tagIndex) => (
+                      <Badge
+                        className="truncate text-xs font-medium tracking-wide sm:text-sm"
+                        variant="outline"
+                        key={`propertyTag-${property._id}-${tagIndex}`}
+                      >
+                        {tag.length > 15 ? `${tag.slice(0, 15)}... ` : tag}
+                      </Badge>
+                    ))}
+                  </div>
+                  <div className="flex-1" />
+                  <Link href={`/property/${property._id}`} className="w-full">
+                    <Button
+                      className="w-full text-base font-semibold"
+                      size="lg"
+                    >
+                      Detaylar
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </SwiperSlide>
+          ))}
         </Swiper>
       </div>
     </div>
