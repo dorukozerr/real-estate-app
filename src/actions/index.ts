@@ -46,17 +46,72 @@ export const getFeaturedProperties = async () =>
     .sort({ createdAt: -1 })
     .toArray();
 
-export const getPropertiesForRent = async () =>
-  (await getCollection("properties"))
+// Maybe merge getPropertiesForRent and getPropertiesForSale into single action
+// actually they can be the same page also
+
+export const getPropertiesForRent = async ({
+  page,
+  size,
+}: {
+  page: number;
+  size: number;
+}) => {
+  const collection = await getCollection("properties");
+
+  const skip = (page - 1) * size;
+
+  const total = await collection.countDocuments({ isForRent: true });
+
+  const properties = await collection
     .find({ isForRent: true })
     .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(size)
     .toArray();
 
-export const getPropertiesForSale = async () =>
-  (await getCollection("properties"))
+  const totalPages = Math.ceil(total / size);
+
+  revalidatePath("/for-rent");
+
+  return {
+    listings: properties,
+    total,
+    totalPages,
+    hasMore: page < totalPages,
+  };
+};
+
+export const getPropertiesForSale = async ({
+  page,
+  size,
+}: {
+  page: number;
+  size: number;
+}) => {
+  const collection = await getCollection("properties");
+
+  const skip = (page - 1) * size;
+
+  const total = await collection.countDocuments({ isForRent: false });
+
+  const properties = await collection
     .find({ isForRent: false })
     .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(size)
     .toArray();
+
+  const totalPages = Math.ceil(total / size);
+
+  revalidatePath("/for-sale");
+
+  return {
+    listings: properties,
+    total,
+    totalPages,
+    hasMore: page < totalPages,
+  };
+};
 
 export const createProperty = async (
   property: Omit<Property, "_id" | "createdAt">

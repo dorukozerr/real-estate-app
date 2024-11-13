@@ -11,3 +11,15 @@ export interface Property {
   roomCount: string;
   tags: string[];
 }
+
+export interface PaginatedProperties {
+  listings: Property[];
+  total: number;
+  currentPage: number;
+  totalPages: number;
+  hasMore: boolean;
+}
+
+export type PageProps = {
+  searchParams?: { [key: string]: string | string[] | undefined };
+};

@@ -1,28 +1,35 @@
 import { getPropertiesForRent } from "@/actions";
-import { Property } from "@/types";
+import { PageProps, PaginatedProperties } from "@/types";
 import { PropertyCard } from "@/components/listing-page/property-card";
+import { Pagination } from "@/components/listing-page/pagination";
 
-const Page = async () => {
-  const properties = await getPropertiesForRent();
-  const p = JSON.parse(JSON.stringify(properties)) as Property[];
+const Page = async ({ searchParams }: PageProps) => {
+  const page = Number(searchParams?.page) || 1;
+  const size = Number(searchParams?.size) || 9;
+
+  const properties = await getPropertiesForRent({ page, size });
+  const p = JSON.parse(JSON.stringify(properties)) as PaginatedProperties;
+
+  const { listings, totalPages, hasMore, total } = p;
 
   return (
     <div className="mx-auto flex h-full w-full max-w-[1440px] items-center justify-center">
-      {properties.length ? (
+      {listings.length ? (
         <div className="flex h-full w-full flex-col gap-4 p-4">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold sm:text-3xl">
-              Kiralık İlanlar - {p.length}
+              Kiralık İlanlar - {total}
             </h2>
           </div>
           <div className="grid h-full w-full flex-1 grid-cols-1 gap-4 overflow-auto rounded-lg border border-border p-0 backdrop-blur-3xl sm:p-4 md:grid-cols-2 xl:grid-cols-3">
-            {p.map((property) => (
+            {listings.map((property) => (
               <PropertyCard
                 property={property}
                 key={`property-${property._id}`}
               />
             ))}
           </div>
+          <Pagination page={page} totalPages={totalPages} hasMore={hasMore} />
         </div>
       ) : (
         <span className="text-xl font-bold">Kiralık ilan bulunamadı.</span>
