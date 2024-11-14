@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide, SwiperClass } from "swiper/react";
 import { EffectCards, Navigation, Pagination } from "swiper/modules";
 import { imageFormatConverter } from "@/lib/imagekitio-image-optimizer";
 import { Property } from "@/types";
@@ -15,6 +15,13 @@ export const CardsSlider = ({ properties }: { properties: Property[] }) => {
   const [loadedImages, setLoadedImages] = useState<string[]>([]);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [width, setWidth] = useState(1920);
+  const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(
+    null
+  );
+  const [range, setRange] = useState({
+    min: 0,
+    max: 10,
+  });
 
   useEffect(() => {
     setWidth(window.innerWidth);
@@ -28,10 +35,34 @@ export const CardsSlider = ({ properties }: { properties: Property[] }) => {
           slidesPerView={1}
           modules={[EffectCards]}
           effect="cards"
-          onSlideChange={(e) => setActiveSlideIndex(e.activeIndex)}
+          onSwiper={setSwiperInstance}
+          onSlideChange={(e) => {
+            setActiveSlideIndex(e.activeIndex);
+            if (
+              e.activeIndex === 2 &&
+              e.swipeDirection === "prev" &&
+              range.min - 5 >= 0
+            ) {
+              setRange((prevState) => ({
+                min: prevState.min - 5,
+                max: prevState.max - 5,
+              }));
+              swiperInstance?.slideTo(7, 0, false);
+            } else if (
+              e.activeIndex === 8 &&
+              e.swipeDirection === "next" &&
+              range.max + 5 <= properties.length
+            ) {
+              setRange((prevState) => ({
+                min: prevState.min + 5,
+                max: prevState.max + 5,
+              }));
+              swiperInstance?.slideTo(3, 0, false);
+            }
+          }}
         >
           {properties
-            ?.slice(0, width > 768 ? properties.length : 10)
+            ?.slice(range.min, range.max)
             .map((property, slideIndex) => (
               <SwiperSlide
                 key={`slide-${property._id}`}

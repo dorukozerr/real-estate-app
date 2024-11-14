@@ -188,7 +188,7 @@ export const populateProperties = async () => {
   for (let i = 0; i < 50; i++) {
     const data = {
       title: `Test Title ${i + 1}`,
-      price: 2500,
+      price: 100 * i,
       location: `Test Location ${i + 1}`,
       imageUrls: [
         "https://ik.imagekit.io/huepk67st/rep1_GhQZtQbGd.jpg",
@@ -199,7 +199,7 @@ export const populateProperties = async () => {
       ],
       description:
         "- Test Description 1\n- Test Description 2\n- Test Description 3\n- Test Description 5\n- Test Description 6\n- Test Description 7",
-      isFeatured: Math.random() > 0.5 ? true : false,
+      isFeatured: true,
       isForRent: Math.random() > 0.5 ? true : false,
       roomCount: "2+1",
       tags: ["test tag 1", "test tag 2", "test tag 3", "test tag 4"],
