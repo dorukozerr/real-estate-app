@@ -19,6 +19,10 @@ const firaSans = Fira_Sans_Condensed({
 export const metadata: Metadata = {
   title: "Emluck",
   description: "Basit bir emlakçı sitesi",
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 const RootLayout = ({
