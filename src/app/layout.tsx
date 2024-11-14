@@ -43,7 +43,7 @@ const RootLayout = ({
           <main className="relative z-10 flex w-full flex-1 flex-col overflow-hidden">
             {children}
           </main>
-          <div className="absolute -z-10 h-full w-full animate-[spin_20000ms_linear_infinite]">
+          <div className="absolute -z-10 hidden h-full w-full animate-[spin_20000ms_linear_infinite] sm:block">
             <div className="absolute left-1/2 top-1/2 h-[100vw] w-[100vh] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-pink-200 to-green-200 blur-3xl dark:from-[#0A1F1C] dark:to-[#2D1A1F] sm:h-[40vh] sm:w-[200vw]"></div>
           </div>
         </div>
