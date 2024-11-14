@@ -30,7 +30,7 @@ export const CardsSlider = ({ properties }: { properties: Property[] }) => {
           effect="cards"
           onSlideChange={(e) => setActiveSlideIndex(e.activeIndex)}
         >
-          {properties?.map((property, slideIndex) => (
+          {properties?.slice(0, 5).map((property, slideIndex) => (
             <SwiperSlide
               key={`slide-${property._id}`}
               className="h-full w-full rounded-2xl border border-border bg-background"
