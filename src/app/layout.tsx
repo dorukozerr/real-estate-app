@@ -44,7 +44,7 @@ const RootLayout = ({
             {children}
           </main>
           <div className="absolute -z-10 h-full w-full animate-[spin_20000ms_linear_infinite]">
-            <div className="absolute left-1/2 top-1/2 h-[100vw] w-[100vh] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-pink-200 to-green-200 blur-3xl dark:from-[#3B4E68] dark:to-[#5F5255] sm:h-[40vh] sm:w-[200vw]"></div>
+            <div className="absolute left-1/2 top-1/2 h-[100vw] w-[100vh] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-pink-200 to-green-200 blur-3xl dark:from-[#0A1F1C] dark:to-[#2D1A1F] sm:h-[40vh] sm:w-[200vw]"></div>
           </div>
         </div>
         <Toaster />
