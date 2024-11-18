@@ -40,7 +40,11 @@ const RootLayout = ({
         disableTransitionOnChange
       >
         <div className="relative flex h-full w-full flex-col overflow-hidden">
-          <Suspense>
+          <Suspense
+            fallback={
+              <div className="relative z-10 mx-auto h-[70px] min-h-[70px] w-full max-w-[1440px] border-b border-border"></div>
+            }
+          >
             <Header />
           </Suspense>
           <main className="relative z-10 flex w-full flex-1 flex-col overflow-hidden">

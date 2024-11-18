@@ -48,7 +48,7 @@ export const Header = () => {
   ];
 
   return (
-    <header className="relative z-10 mx-auto flex h-[70px] min-h-[70px] w-screen max-w-[1440px] items-center justify-between border-b border-border px-4">
+    <header className="relative z-10 mx-auto flex h-[70px] min-h-[70px] w-full max-w-[1440px] items-center justify-between border-b border-border px-4">
       <Link href="/">
         <h2 className="text-2xl font-bold sm:text-4xl">Emluck</h2>
       </Link>
