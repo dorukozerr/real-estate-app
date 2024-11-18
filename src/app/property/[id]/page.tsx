@@ -29,7 +29,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
   return (
     <div className="mx-auto h-full w-full max-w-[1440px] text-wrap border border-red-500">
-      helo
+      {JSON.stringify(p)}
     </div>
   );
 };
