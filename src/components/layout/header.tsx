@@ -1,7 +1,7 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useTheme } from "next-themes";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { ThemeToggler } from "@/components/theme/theme-toggler";
@@ -21,8 +21,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export const Header = () => {
-  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { setTheme } = useTheme();
+
+  const mode = searchParams.get("mode") || "";
 
   const themeOptions = [
     { label: "Aydınlık", onClick: () => setTheme("light") },
@@ -33,8 +35,16 @@ export const Header = () => {
   const links = [
     { href: "/", label: "Anasayfa" },
     { href: "/about-us", label: "Biz Kimiz" },
-    { href: "/for-sale", label: "Satılık İlanlar" },
-    { href: "/for-rent", label: "Kiralık İlanlar" },
+    {
+      href: "/listing?mode=sale&page=1&size=9",
+      label: "Satılık İlanlar",
+      key: "sale",
+    },
+    {
+      href: "/listing?mode=rent&page=1&size=9",
+      label: "Kiralık İlanlar",
+      key: "rent",
+    },
   ];
 
   return (
@@ -45,9 +55,9 @@ export const Header = () => {
       <div className="hidden items-center justify-start gap-4 sm:flex">
         {links
           .filter(({ label }) => label !== "Anasayfa")
-          .map(({ href, label }, linkIndex) => (
+          .map(({ href, label, key }, linkIndex) => (
             <Link href={href} key={`headerLink-${linkIndex}`}>
-              <Button variant={pathname === href ? "outline" : "ghost"}>
+              <Button variant={key === mode ? "outline" : "ghost"}>
                 {label}
               </Button>
             </Link>
@@ -65,10 +75,10 @@ export const Header = () => {
             <DropdownMenuLabel>Menü</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              {links.map(({ href, label }, linkIndex) => (
+              {links.map(({ href, label, key }, linkIndex) => (
                 <Link href={href} key={`mobileMenuItem-${linkIndex}`}>
                   <DropdownMenuItem>
-                    <span className={href === pathname ? "underline" : ""}>
+                    <span className={key === mode ? "underline" : ""}>
                       {label}
                     </span>
                   </DropdownMenuItem>

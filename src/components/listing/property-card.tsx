@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Property } from "@/types";
-import { ImageSlider } from "@/components/listing-page/image-slider";
+import { ImageSlider } from "@/components/listing/image-slider";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 

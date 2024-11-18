@@ -3,7 +3,7 @@ import { getProperty, getProperties } from "@/actions";
 import { Property } from "@/types";
 
 export const generateStaticParams = async () => {
-  const properties = await getProperties();
+  const properties = await getProperties({ mode: "all", page: 1, size: 9 });
   const p = JSON.parse(JSON.stringify(properties)) as Property[];
 
   return p.length

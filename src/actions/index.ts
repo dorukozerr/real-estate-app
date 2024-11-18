@@ -37,33 +37,29 @@ const getCollection = async (collectionName: string) =>
 export const getProperty = async (id: string) =>
   (await getCollection("properties")).findOne({ _id: new ObjectId(id) });
 
-export const getProperties = async () =>
-  (await getCollection("properties")).find().sort({ createdAt: -1 }).toArray();
-
-export const getFeaturedProperties = async () =>
-  (await getCollection("properties"))
-    .find({ isFeatured: true })
-    .sort({ createdAt: -1 })
-    .toArray();
-
-// Maybe merge getPropertiesForRent and getPropertiesForSale into single action
-// actually they can be the same page also
-
-export const getPropertiesForRent = async ({
+export const getProperties = async ({
+  mode,
   page,
   size,
 }: {
+  mode: "all" | "rent" | "sale";
   page: number;
   size: number;
 }) => {
   const collection = await getCollection("properties");
 
+  if (mode === "all") {
+    return collection.find().sort({ createdAt: -1 }).toArray();
+  }
+
   const skip = (page - 1) * size;
 
-  const total = await collection.countDocuments({ isForRent: true });
+  const total = await collection.countDocuments({
+    isForRent: mode === "rent" ? true : false,
+  });
 
   const properties = await collection
-    .find({ isForRent: true })
+    .find({ isForRent: mode === "rent" ? true : false })
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(size)
@@ -71,39 +67,7 @@ export const getPropertiesForRent = async ({
 
   const totalPages = Math.ceil(total / size);
 
-  revalidatePath("/for-rent");
-
-  return {
-    listings: properties,
-    total,
-    totalPages,
-    hasMore: page < totalPages,
-  };
-};
-
-export const getPropertiesForSale = async ({
-  page,
-  size,
-}: {
-  page: number;
-  size: number;
-}) => {
-  const collection = await getCollection("properties");
-
-  const skip = (page - 1) * size;
-
-  const total = await collection.countDocuments({ isForRent: false });
-
-  const properties = await collection
-    .find({ isForRent: false })
-    .sort({ createdAt: -1 })
-    .skip(skip)
-    .limit(size)
-    .toArray();
-
-  const totalPages = Math.ceil(total / size);
-
-  revalidatePath("/for-sale");
+  revalidatePath("/listing");
 
   return {
     listings: properties,

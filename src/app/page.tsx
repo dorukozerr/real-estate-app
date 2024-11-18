@@ -1,11 +1,9 @@
-import { getFeaturedProperties, getProperties } from "@/actions";
+import { getProperties } from "@/actions";
 import { Property } from "@/types";
 import { CardsSlider } from "@/components/home/cards-slider";
 
 const Page = async () => {
-  const featuredProperties = await getFeaturedProperties();
-  const properties = await getProperties();
-  const fp = JSON.parse(JSON.stringify(featuredProperties)) as Property[];
+  const properties = await getProperties({ mode: "all", page: 1, size: 10 });
   const p = JSON.parse(JSON.stringify(properties)) as Property[];
 
   return (
@@ -13,7 +11,9 @@ const Page = async () => {
       <h1 className="mx-auto w-[min(500px,90vw)] text-center text-3xl font-semibold sm:w-[min(900px,90vw)] sm:text-5xl md:text-7xl">
         Emluck&apos;a hoşgeldiniz, özel ilanlarımıza bir göz atın
       </h1>
-      <CardsSlider properties={fp} />
+      <CardsSlider
+        properties={p.length ? p.filter((property) => property.isFeatured) : []}
+      />
       <div className="flex h-max w-max items-center justify-center gap-16 rounded-md border border-border p-4">
         <div className="flex flex-col items-start justify-start">
           <span className="text-xl font-thin text-muted-foreground">
