@@ -43,7 +43,7 @@ export const BrandIcon = () => {
   }, []);
 
   return (
-    <div className="h-96 w-96" ref={elementRef}>
+    <div className="h-32 w-32 sm:h-56 sm:w-56 lg:h-96 lg:w-96" ref={elementRef}>
       <MapPinHouse className="h-full w-full" />
     </div>
   );
