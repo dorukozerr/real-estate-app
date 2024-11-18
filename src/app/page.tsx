@@ -3,7 +3,7 @@ import { Property } from "@/types";
 import { CardsSlider } from "@/components/home/cards-slider";
 
 const Page = async () => {
-  const properties = await getProperties({ mode: "all", page: 1, size: 10 });
+  const properties = await getProperties({ mode: "all" });
   const p = JSON.parse(JSON.stringify(properties)) as Property[];
 
   return (

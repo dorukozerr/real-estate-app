@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Fira_Sans_Condensed } from "next/font/google";
 import { ThemeProvider } from "@/components/theme/theme-provider";
@@ -39,7 +40,9 @@ const RootLayout = ({
         disableTransitionOnChange
       >
         <div className="relative flex h-full w-full flex-col overflow-hidden">
-          <Header />
+          <Suspense>
+            <Header />
+          </Suspense>
           <main className="relative z-10 flex w-full flex-1 flex-col overflow-hidden">
             {children}
           </main>

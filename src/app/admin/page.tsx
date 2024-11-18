@@ -13,7 +13,7 @@ const AdminPage = dynamic(
 );
 
 const Page = async () => {
-  const properties = await getProperties();
+  const properties = await getProperties({ mode: "all" });
   const p = JSON.parse(JSON.stringify(properties)) as Property[];
 
   const isAuthenticated = await checkAuth();

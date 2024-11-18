@@ -39,12 +39,12 @@ export const getProperty = async (id: string) =>
 
 export const getProperties = async ({
   mode,
-  page,
-  size,
+  page = 1,
+  size = 9,
 }: {
   mode: "all" | "rent" | "sale";
-  page: number;
-  size: number;
+  page?: number;
+  size?: number;
 }) => {
   const collection = await getCollection("properties");
 
