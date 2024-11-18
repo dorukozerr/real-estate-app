@@ -21,7 +21,7 @@ const Page = async ({ searchParams }: PageProps) => {
               Kiralık İlanlar - {total}
             </h2>
           </div>
-          <div className="grid h-full w-full flex-1 grid-cols-1 gap-4 overflow-auto rounded-lg border border-border p-0 backdrop-blur-3xl sm:p-4 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid h-full w-full flex-1 grid-cols-1 gap-4 overflow-auto border-b border-t border-border py-4 backdrop-blur-3xl md:grid-cols-2 xl:grid-cols-3">
             {listings.map((property) => (
               <PropertyCard
                 property={property}
