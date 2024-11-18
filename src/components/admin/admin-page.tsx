@@ -46,27 +46,6 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
     id: "",
   });
 
-  const openCreateDialog = () =>
-    setPropertyDialogState({
-      mode: "create",
-      open: true,
-      property: null,
-    });
-
-  const openEditDialog = (property: Property) =>
-    setPropertyDialogState({
-      mode: "edit",
-      open: true,
-      property,
-    });
-
-  const closePropertyDialog = () =>
-    setPropertyDialogState({
-      mode: "",
-      open: false,
-      property: null,
-    });
-
   const renderMethods = {
     actions: (property: Property) => (
       <DropdownMenu>
@@ -76,7 +55,15 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem onClick={() => openEditDialog(property)}>
+          <DropdownMenuItem
+            onClick={() =>
+              setPropertyDialogState({
+                mode: "edit",
+                open: true,
+                property,
+              })
+            }
+          >
             Edit
           </DropdownMenuItem>
           <DropdownMenuItem
@@ -131,7 +118,16 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
     <>
       <div className="flex h-full w-full flex-col items-start justify-start gap-4">
         <div className="flex w-full items-center justify-end gap-4">
-          <Button variant="outline" onClick={() => openCreateDialog()}>
+          <Button
+            variant="outline"
+            onClick={() =>
+              setPropertyDialogState({
+                mode: "create",
+                open: true,
+                property: null,
+              })
+            }
+          >
             <Plus className="h-[1.2rem] w-[1.2rem]" />
             <span>Add Property</span>
           </Button>
@@ -193,7 +189,13 @@ export const AdminPage = ({ properties }: { properties: Property[] }) => {
       </div>
       <PropertyDialog
         open={propertyDialogState.open}
-        onOpenChange={() => closePropertyDialog()}
+        onOpenChange={() =>
+          setPropertyDialogState({
+            mode: "",
+            open: false,
+            property: null,
+          })
+        }
         mode={propertyDialogState.mode}
         property={propertyDialogState.property}
       />
