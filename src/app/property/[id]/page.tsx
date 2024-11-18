@@ -27,7 +27,11 @@ const Page = async ({ params }: { params: { id: string } }) => {
     notFound();
   }
 
-  return <div className="text-wrap">{JSON.stringify(p)}</div>;
+  return (
+    <div className="mx-auto h-full w-full max-w-[1440px] text-wrap border border-red-500">
+      helo
+    </div>
+  );
 };
 
 export default Page;

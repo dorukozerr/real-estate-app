@@ -2,15 +2,14 @@
 
 ## Stack
 
--   nextjs
+-   next
 -   typescript
--   tailwindcss
+-   tailwind
 -   shadcn (actually radix?)
 -   zod
--   mongodb
--   swiperjs
-
-AI can generate this app but I'm trying to build it without AI. I feel little bit depressed :(((
+-   mongo
+-   swiper
+-   imagekitio
 
 example `.env`
 
