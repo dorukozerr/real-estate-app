@@ -9,6 +9,7 @@ import "swiper/css";
 import "swiper/css/effect-cards";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import "swiper/css/thumbs";
 import "./globals.css";
 
 const firaSans = Fira_Sans_Condensed({

@@ -95,6 +95,8 @@ export const createProperty = async (
 
   revalidatePath("/");
   revalidatePath("/admin");
+  revalidatePath("/listing");
+  revalidatePath(`/property/${result.insertedId}`);
 
   return result;
 };
@@ -115,6 +117,7 @@ export const updateProperty = async (
 
   revalidatePath("/");
   revalidatePath("/admin");
+  revalidatePath("/listing");
   revalidatePath(`/property/${id}`);
 
   return result;
@@ -133,6 +136,7 @@ export const deleteProperty = async (id: string) => {
 
   revalidatePath("/");
   revalidatePath("/admin");
+  revalidatePath("/listing");
   revalidatePath(`/property/${id}`);
 
   return result;
@@ -178,6 +182,7 @@ export const populateProperties = async () => {
   }
 
   revalidatePath("/");
+  revalidatePath("/listing");
   revalidatePath("/admin");
 
   return results;
