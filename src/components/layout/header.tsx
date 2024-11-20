@@ -52,7 +52,10 @@ export const Header = () => {
       <Link href="/">
         <h2 className="text-2xl font-bold sm:text-4xl">Emluck</h2>
       </Link>
-      <div className="hidden items-center justify-start gap-4 sm:flex">
+      <div
+        className="hidden items-center justify-start gap-4 sm:flex"
+        data-testid="desktop-nav"
+      >
         {links
           .filter(({ label }) => label !== "Anasayfa")
           .map(({ href, label, key }, linkIndex) => (
@@ -64,7 +67,7 @@ export const Header = () => {
           ))}
         <ThemeToggler />
       </div>
-      <div className="block sm:hidden">
+      <div className="block sm:hidden" data-testid="mobile-nav">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="icon">
