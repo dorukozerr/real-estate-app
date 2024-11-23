@@ -1,6 +1,6 @@
 # Real Estate App
 
-## Features
+###  Features
 
 -   Admin page for creating, editing, and deleting properties.
 -   Cookie based authentication with server actions.
@@ -8,17 +8,18 @@
 -   Listing pages with query parameter filtering and pagination.
 -   Details pages are generated on build for SEO optimization.
 
-## Stack
+### Stack
 
--   ts
--   next
--   tailwind
--   shadcn (actually radix?)
+-   TypeScript
+-   React
+-   NextJS
+-   TailwindCSS
+-   shadcn components (actually radix?)
 -   react hook form
 -   zod
--   mongo
+-   MongoDB
 -   swiper
--   imagekitio
+-   imagekit-io
 
 required `.env` variables
 
