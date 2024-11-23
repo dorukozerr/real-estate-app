@@ -1,17 +1,26 @@
 # Real Estate App
 
+## Features
+
+-   Admin page for creating, editing, and deleting properties.
+-   Cookie based authentication with server actions.
+-   Landing page for featured properties.
+-   Listing pages with query parameter filtering and pagination.
+-   Details pages are generated on build for SEO optimization.
+
 ## Stack
 
+-   ts
 -   next
--   typescript
 -   tailwind
 -   shadcn (actually radix?)
+-   react hook form
 -   zod
 -   mongo
 -   swiper
 -   imagekitio
 
-example `.env`
+required `.env` variables
 
 ```
 MONGODB_URI=""
@@ -21,3 +30,5 @@ NEXT_PUBLIC_IMAGEKITIO_PUBLIC_KEY=""
 NEXT_PUBLIC_IMAGEKITIO_URL_ENDPOINT=""
 NEXT_PUBLIC_APP_URL=""
 ```
+
+[Wathc the demo](https://www.youtube.com/watch?v=ZayT4eNy46k "demo")
