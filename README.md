@@ -1,13 +1,5 @@
 # Real Estate App
 
-###  Features
-
--   Admin page for creating, editing, and deleting properties.
--   Cookie based authentication with server actions.
--   Landing page for featured properties.
--   Listing pages with query parameter filtering and pagination.
--   Details pages are generated on build for SEO.
-
 required `.env` variables
 
 ```
