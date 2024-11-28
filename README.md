@@ -6,20 +6,7 @@
 -   Cookie based authentication with server actions.
 -   Landing page for featured properties.
 -   Listing pages with query parameter filtering and pagination.
--   Details pages are generated on build for SEO optimization.
-
-### Stack
-
--   TypeScript
--   React
--   NextJS
--   TailwindCSS
--   shadcn components (actually radix?)
--   react hook form
--   zod
--   MongoDB
--   swiper
--   imagekit-io
+-   Details pages are generated on build for SEO.
 
 required `.env` variables
 
