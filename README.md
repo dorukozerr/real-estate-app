@@ -1,5 +1,7 @@
 # Real Estate App
 
+To be updated...
+
 required `.env` variables
 
 ```
